@@ -30,10 +30,14 @@ const dotenv = __importStar(require("dotenv"));
 const express_1 = __importDefault(require("express"));
 const bodyParser = __importStar(require("body-parser"));
 const orderRouter_1 = require("./routes/orderRouter");
+const companyRouter_1 = require("./routes/companyRouter");
 const app = (0, express_1.default)();
 dotenv.config();
+let cors = require("cors");
+app.use(cors());
 app.use(bodyParser.json());
 app.use("/orders", orderRouter_1.orderRouter);
-app.listen(process.env.PORT, () => {
-    console.log("Node server started running at http://localhost:" + process.env.PORT);
+app.use("/companies", companyRouter_1.companyRouter);
+app.listen(3001, () => {
+    console.log("Node server started running at http://localhost:" + 3001);
 });

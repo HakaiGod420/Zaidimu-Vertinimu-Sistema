@@ -1,6 +1,6 @@
 {
   "private": true,
-  "proxy":"http://localhost:3306",
+  "proxy":"http://localhost:3001",
   "scripts": {
     "dev": "next dev",
     "build": "next build",

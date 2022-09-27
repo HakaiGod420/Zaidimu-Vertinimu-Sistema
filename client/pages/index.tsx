@@ -9,14 +9,13 @@ const Home: NextPage = () => {
 
   useEffect(()=>
   {
-    fetch("http://localhost:3306/orders").then(
+    fetch(`http://localhost:3001/orders`).then(
       response=> response.json()
     ).then(data =>{
       setBackendData(data)
     })
   },[])
 
-  console.log(backendData)
   return (
     <div>
       <div>

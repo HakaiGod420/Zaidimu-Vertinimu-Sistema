@@ -36,6 +36,13 @@ export const create = (order: BasicOrder, callback: Function) => {
       if (err) {callback(err)}
       
       const row = (<RowDataPacket> result)[0];
+      
+      if(row == undefined){
+        const err2 = new Error('Where is not order with selected')
+        callback(err2)
+        return;
+      }
+
       const order: OrderWithDetails =  {
         orderId: row.order_id,
         customer: {
@@ -72,7 +79,6 @@ export const create = (order: BasicOrder, callback: Function) => {
   
       const rows = <RowDataPacket[]> result;
       const orders: Order[] = [];
-  
       rows.forEach(row => {
         const order: OrderWithDetails =  {
           orderId: row.order_id,

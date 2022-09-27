@@ -30,6 +30,11 @@ const findOne = (orderId, callback) => {
             callback(err);
         }
         const row = result[0];
+        if (row == undefined) {
+            const err2 = new Error('Where is not order with selected');
+            callback(err2);
+            return;
+        }
         const order = {
             orderId: row.order_id,
             customer: {
