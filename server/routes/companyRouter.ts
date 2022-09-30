@@ -15,7 +15,7 @@ companyRouter.get("/", async (req: Request, res: Response) => {
 
 
 companyRouter.post("/", async (req: Request, res: Response) => {
-    const newCompany: BasicCompany = req.body;
+    const newCompany: Company = req.body;
     companyModel.create(newCompany, (err: Error, id: number) => {
         if (err) {
             return res.status(500).json({ "message": err.message });

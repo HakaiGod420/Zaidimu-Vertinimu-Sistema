@@ -3,7 +3,7 @@ import { OkPacket, RowDataPacket } from "mysql2";
 import { BasicCompany, Company } from "../types/company";
 
 
-export const create = (company: BasicCompany, callback: Function) => {
+export const create = (company: Company, callback: Function) => {
     const queryString = "INSERT INTO `company`(`Name`, `CreationDate`, `Image`) VALUES (?, ?, ?)"
 
     db.query(

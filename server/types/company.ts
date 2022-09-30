@@ -1,9 +1,9 @@
 export interface BasicCompany {
-  name: string,
-  creationDate: Date,
-  image: string
+  id: number,
   }
   
   export interface Company extends BasicCompany{
-    id: number,
+    name: string,
+    creationDate: Date,
+    image: string
   }

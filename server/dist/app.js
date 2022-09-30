@@ -31,12 +31,14 @@ const express_1 = __importDefault(require("express"));
 const bodyParser = __importStar(require("body-parser"));
 const orderRouter_1 = require("./routes/orderRouter");
 const companyRouter_1 = require("./routes/companyRouter");
+const gameRouter_1 = require("./routes/gameRouter");
 const app = (0, express_1.default)();
 dotenv.config();
 let cors = require("cors");
 app.use(cors());
 app.use(bodyParser.json());
 app.use("/orders", orderRouter_1.orderRouter);
+companyRouter_1.companyRouter.use('/:companyId/games', gameRouter_1.gameRouter);
 app.use("/companies", companyRouter_1.companyRouter);
 app.listen(3001, () => {
     console.log("Node server started running at http://localhost:" + 3001);
