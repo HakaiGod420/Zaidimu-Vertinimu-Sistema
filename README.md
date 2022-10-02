@@ -45,6 +45,7 @@ Sistema sudarys trys sistemos naudotojai: administratorius, prisijungęs vartoto
 
 ## 3. Sistemos architectūra
 
-![image](https://user-images.githubusercontent.com/53708719/192141120-de0ce828-7c5a-404f-bcba-f081739b1505.png)
+![image](https://user-images.githubusercontent.com/53708719/193450817-b6216e6c-a47e-4557-99e9-972f80f153fd.png)
+
 
 
