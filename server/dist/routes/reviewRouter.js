@@ -42,11 +42,47 @@ const reviewRouter = express_1.default.Router({ mergeParams: true });
 exports.reviewRouter = reviewRouter;
 reviewRouter.get("/", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const gameId = Number(req.params.gameId);
-    console.log(gameId);
     reviewModel.findAll(gameId, (err, orders) => {
         if (err) {
             return res.status(500).json({ "errorMessage": err.message });
         }
         res.status(200).json({ "data": orders });
+    });
+}));
+reviewRouter.get("/:id", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const reviewId = Number(req.params.id);
+    const gameId = Number(req.params.gameId);
+    reviewModel.findOne(reviewId, gameId, (err, review) => {
+        if (err) {
+            return res.status(500).json({ "message": err.message });
+        }
+        res.status(200).json({ "data": review });
+    });
+}));
+reviewRouter.post("/", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const newReview = req.body;
+    reviewModel.create(newReview, (err, reviewId) => {
+        if (err) {
+            return res.status(500).json({ "message": err.message });
+        }
+        res.status(200).json({ "gameID": reviewId });
+    });
+}));
+reviewRouter.delete("/:id", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const reviewId = Number(req.params.id);
+    reviewModel.deleteOne(reviewId, (err) => {
+        if (err) {
+            return res.status(404).json({ "message": err.message });
+        }
+        res.status(204).send();
+    });
+}));
+reviewRouter.put("/:id", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const review = req.body;
+    reviewModel.update(review, (err) => {
+        if (err) {
+            return res.status(500).json({ "message": err.message });
+        }
+        res.status(200).send();
     });
 }));
