@@ -6,7 +6,7 @@ const gameRouter = express.Router({ mergeParams: true });
 
 
 gameRouter.post("/", async (req: Request, res: Response) => {
-    const newGame: BasicGame = req.body;
+    const newGame: Game = req.body;
     gameModel.create(newGame, (err: Error, gameId: number) => {
         if (err) {
             return res.status(500).json({ "message": err.message });

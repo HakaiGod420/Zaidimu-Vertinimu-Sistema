@@ -22,25 +22,31 @@ var __importStar = (this && this.__importStar) || function (mod) {
     __setModuleDefault(result, mod);
     return result;
 };
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const dotenv = __importStar(require("dotenv"));
+exports.reviewRouter = void 0;
 const express_1 = __importDefault(require("express"));
-const bodyParser = __importStar(require("body-parser"));
-const companyRouter_1 = require("./routes/companyRouter");
-const gameRouter_1 = require("./routes/gameRouter");
-const reviewRouter_1 = require("./routes/reviewRouter");
-const app = (0, express_1.default)();
-dotenv.config();
-let cors = require("cors");
-app.use(cors());
-app.use(bodyParser.json());
-//app.use("/orders", orderRouter);
-companyRouter_1.companyRouter.use('/:companyId/games', gameRouter_1.gameRouter);
-gameRouter_1.gameRouter.use('/:gameId/reviews', reviewRouter_1.reviewRouter);
-app.use("/companies", companyRouter_1.companyRouter);
-app.listen(3001, () => {
-    console.log("Node server started running at http://localhost:" + 3001);
-});
+const reviewModel = __importStar(require("../models/review"));
+const reviewRouter = express_1.default.Router({ mergeParams: true });
+exports.reviewRouter = reviewRouter;
+reviewRouter.get("/", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const gameId = Number(req.params.gameId);
+    console.log(gameId);
+    reviewModel.findAll(gameId, (err, orders) => {
+        if (err) {
+            return res.status(500).json({ "errorMessage": err.message });
+        }
+        res.status(200).json({ "data": orders });
+    });
+}));

@@ -2,7 +2,7 @@ import { Game, BasicGame, GameWithDetails } from "../types/game";
 import { db } from "../db";
 import { OkPacket, RowDataPacket } from "mysql2";
 
-export const create = (game: BasicGame, callback: Function) => {
+export const create = (game: Game, callback: Function) => {
   const queryString = "INSERT INTO `game`(`Name`, `Summary`, `ReleaseDate`, `CompanyID`, `StartingPrice`, `Thumbnail`) VALUES (?,?,?,?,?,?)"
 
   if(game.company.id == undefined){

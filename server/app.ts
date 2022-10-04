@@ -4,6 +4,7 @@ import * as bodyParser from "body-parser";
 import {orderRouter} from "./routes/orderRouter";
 import {companyRouter} from "./routes/companyRouter";
 import {gameRouter} from "./routes/gameRouter";
+import { reviewRouter } from "./routes/reviewRouter";
 
 const app = express();
 dotenv.config();
@@ -12,8 +13,9 @@ let cors = require("cors");
 
 app.use(cors());
 app.use(bodyParser.json());
-app.use("/orders", orderRouter);
+//app.use("/orders", orderRouter);
 companyRouter.use('/:companyId/games',gameRouter)
+gameRouter.use('/:gameId/reviews',reviewRouter);
 app.use("/companies", companyRouter);
 
 app.listen(3001, () => {
