@@ -33,7 +33,7 @@ reviewRouter.post("/", async (req: Request, res: Response) => {
             return res.status(500).json({ "message": err.message });
         }
 
-        res.status(200).json({ "gameID": reviewId });
+        res.status(200).json({ "reviewID": reviewId });
     });
 });
 

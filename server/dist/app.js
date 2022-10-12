@@ -37,7 +37,6 @@ dotenv.config();
 let cors = require("cors");
 app.use(cors());
 app.use(bodyParser.json());
-//app.use("/orders", orderRouter);
 companyRouter_1.companyRouter.use('/:companyId/games', gameRouter_1.gameRouter);
 gameRouter_1.gameRouter.use('/:gameId/reviews', reviewRouter_1.reviewRouter);
 app.use("/companies", companyRouter_1.companyRouter);
