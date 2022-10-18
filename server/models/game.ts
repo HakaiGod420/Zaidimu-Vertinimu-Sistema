@@ -5,16 +5,16 @@ import { OkPacket, RowDataPacket } from "mysql2";
 export const create = (game: Game, callback: Function) => {
   const queryString = "INSERT INTO `game`(`Name`, `Summary`, `ReleaseDate`, `CompanyID`, `StartingPrice`, `Thumbnail`) VALUES (?,?,?,?,?,?)"
 
-  if(game.company.id == undefined){
+  if (game.company.id == undefined) {
     const err2 = new Error('No Company ID was selected')
-    callback(err2,-1)
+    callback(err2, -1)
     return;
   }
   db.query(
     queryString,
     [game.name, game.summary, game.releaseDate, game.company.id, game.startingPrice, game.thumbnail],
     (err, result) => {
-      if (err) { callback(err);return };
+      if (err) { callback(err); return };
 
       const insertId = (<OkPacket>result).insertId;
       callback(null, insertId);
@@ -22,11 +22,11 @@ export const create = (game: Game, callback: Function) => {
   );
 };
 
-export const findOne = (gameID: number,companyId:number, callback: Function) => {
+export const findOne = (gameID: number, companyId: number, callback: Function) => {
 
   const queryString = "SELECT g.*, c.*,g.Name as 'GameName',g.id as 'GameID' FROM game as g INNER JOIN company as c on c.id=g.CompanyID where g.id=? and c.id=?"
 
-  db.query(queryString, [gameID,companyId], (err, result) => {
+  db.query(queryString, [gameID, companyId], (err, result) => {
     if (err) { callback(err) }
 
     const row = (<RowDataPacket>result)[0];
@@ -44,7 +44,7 @@ export const findOne = (gameID: number,companyId:number, callback: Function) => 
       releaseDate: row.ReleaseDate,
       startingPrice: row.StartingPrice,
       thumbnail: row.Thumbnail,
-      howManyRated:row.howManyRated,
+      howManyRated: row.howManyRated,
       company: {
         id: row.id,
         name: row.Name,
@@ -72,7 +72,7 @@ export const findAll = (companyID: number, callback: Function) => {
         releaseDate: row.ReleaseDate,
         startingPrice: row.StartingPrice,
         thumbnail: row.Thumbnail,
-        howManyRated:row.HowManyRated,
+        howManyRated: row.HowManyRated,
         company: {
           id: row.id,
         }
@@ -88,12 +88,12 @@ export const update = (game: Game, callback: Function) => {
   const queryString = "UPDATE `game` SET `Name`=?,`Summary`=?,`ReleaseDate`=?,`CompanyID`=?,`StartingPrice`=?,`Thumbnail`=? WHERE id=?";
 
   db.query(
-      queryString,
-      [game.name,game.summary,game.releaseDate,game.company.id,game.startingPrice,game.thumbnail,game.id],
-      (err, result) => {
-          if (err) { callback(err) }
-          callback(null);
-      }
+    queryString,
+    [game.name, game.summary, game.releaseDate, game.company.id, game.startingPrice, game.thumbnail, game.id],
+    (err, result) => {
+      if (err) { callback(err) }
+      callback(null);
+    }
   );
 }
 
@@ -102,7 +102,9 @@ export const deleteOne = (gameId: number, callback: Function) => {
   const queryString = "DELETE FROM `game` WHERE id=?"
 
   db.query(queryString, gameId, (err, result) => {
-      if (err) { callback(err) }
-      callback(null)
+    if (err) {
+      callback(err)
+    }
+    callback(null);
   });
 }

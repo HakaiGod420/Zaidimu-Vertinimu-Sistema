@@ -24,7 +24,7 @@ const findOne = (companyID, callback) => {
         }
         const row = result[0];
         if (row == undefined) {
-            const err2 = new Error('Where is not company with selected id');
+            const err2 = new Error('Not Found');
             callback(err2);
             return;
         }
@@ -59,23 +59,46 @@ const findAll = (callback) => {
     });
 };
 exports.findAll = findAll;
-const update = (company, callback) => {
+const update = (company, companyId, callback) => {
     const queryString = "UPDATE company SET Name=?,CreationDate=?,Image=? WHERE id=?";
-    db_1.db.query(queryString, [company.name, company.creationDate, company.image, company.id], (err, result) => {
-        if (err) {
-            callback(err);
+    const checkQueryString = "SELECT id FROM company WHERE id=?;";
+    db_1.db.query(checkQueryString, companyId, (err, result) => {
+        const row = result[0];
+        if (row == undefined) {
+            const err2 = new Error('Not Found');
+            callback(err2);
+            return;
         }
-        callback(null);
+        else {
+            db_1.db.query(queryString, [company.name, company.creationDate, company.image, companyId], (err, result) => {
+                if (err) {
+                    callback(err);
+                }
+                callback(null);
+            });
+        }
     });
 };
 exports.update = update;
 const deleteOne = (companyID, callback) => {
-    const queryString = "DELETE FROM `company` WHERE id=?";
-    db_1.db.query(queryString, companyID, (err, result) => {
-        if (err) {
-            callback(err);
+    //First check if exists
+    const checkQueryString = "SELECT id FROM company WHERE id=?;";
+    db_1.db.query(checkQueryString, companyID, (err, result) => {
+        const row = result[0];
+        if (row == undefined) {
+            const err2 = new Error('Not Found');
+            callback(err2);
+            return;
         }
-        callback(null);
+        else {
+            const queryString = "DELETE FROM `company` WHERE id=?";
+            db_1.db.query(queryString, companyID, (err, result) => {
+                if (err) {
+                    callback(err);
+                }
+                callback(null);
+            });
+        }
     });
 };
 exports.deleteOne = deleteOne;

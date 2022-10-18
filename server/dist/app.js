@@ -37,9 +37,20 @@ dotenv.config();
 let cors = require("cors");
 app.use(cors());
 app.use(bodyParser.json());
+app.use((err, req, res, next) => {
+    if (err) {
+        res.status(400).json({ error: "Bad Request. Check JSON format" });
+    }
+    else {
+        next();
+    }
+});
 companyRouter_1.companyRouter.use('/:companyId/games', gameRouter_1.gameRouter);
 gameRouter_1.gameRouter.use('/:gameId/reviews', reviewRouter_1.reviewRouter);
 app.use("/companies", companyRouter_1.companyRouter);
+app.get('*', function (req, res) {
+    res.status(404).json({ message: "Page was not found" });
+});
 app.listen(3001, () => {
     console.log("Node server started running at http://localhost:" + 3001);
 });

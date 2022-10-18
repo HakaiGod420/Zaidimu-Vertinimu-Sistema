@@ -11,8 +11,10 @@ export const create = (company: Company, callback: Function) => {
         [company.name, company.creationDate, company.image],
         (err, result) => {
             console.log(result)
-            if (err) { callback(err);
-                 return; };
+            if (err) {
+                callback(err);
+                return;
+            };
             const insertId = (<OkPacket>result).insertId;
             callback(null, insertId);
         }
@@ -28,11 +30,11 @@ export const findOne = (companyID: number, callback: Function) => {
 
         const row = (<RowDataPacket>result)[0];
 
-        if(row == undefined){
-            const err2 = new Error('Where is not company with selected id')
+        if (row == undefined) {
+            const err2 = new Error('Not Found')
             callback(err2)
             return;
-          }
+        }
 
         const company: Company = {
             id: row.id,
@@ -66,25 +68,51 @@ export const findAll = (callback: Function) => {
     });
 }
 
-export const update = (company: Company, callback: Function) => {
+export const update = (company: Company, companyId: number, callback: Function) => {
     const queryString = "UPDATE company SET Name=?,CreationDate=?,Image=? WHERE id=?";
 
-    db.query(
-        queryString,
-        [company.name, company.creationDate,company.image, company.id],
-        (err, result) => {
-            if (err) { callback(err) }
-            callback(null);
+    const checkQueryString = "SELECT id FROM company WHERE id=?;"
+
+    db.query(checkQueryString, companyId, (err, result) => {
+        const row = (<RowDataPacket>result)[0]
+        if (row == undefined) {
+            const err2 = new Error('Not Found')
+            callback(err2)
+            return;
         }
-    );
+        else {
+            db.query(
+                queryString,
+                [company.name, company.creationDate, company.image, companyId],
+                (err, result) => {
+                    if (err) { callback(err) }
+                    callback(null);
+                }
+            );
+        }
+    });
+
 }
 
 export const deleteOne = (companyID: number, callback: Function) => {
+    //First check if exists
 
-    const queryString = "DELETE FROM `company` WHERE id=?"
 
-    db.query(queryString, companyID, (err, result) => {
-        if (err) { callback(err) }
-        callback(null)
+    const checkQueryString = "SELECT id FROM company WHERE id=?;"
+
+    db.query(checkQueryString, companyID, (err, result) => {
+        const row = (<RowDataPacket>result)[0]
+        if (row == undefined) {
+            const err2 = new Error('Not Found')
+            callback(err2)
+            return;
+        }
+        else {
+            const queryString = "DELETE FROM `company` WHERE id=?"
+            db.query(queryString, companyID, (err, result) => {
+                if (err) { callback(err) }
+                callback(null);
+            });
+        }
     });
 }

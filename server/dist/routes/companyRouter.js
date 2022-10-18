@@ -54,33 +54,64 @@ companyRouter.post("/", (req, res) => __awaiter(void 0, void 0, void 0, function
         if (err) {
             return res.status(500).json({ "message": err.message });
         }
-        res.status(200).json({ "id": id });
+        res.status(201).json({ "id": id });
     });
 }));
 companyRouter.get("/:id", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    var isNumber = /^[0-9]+$/.test(req.params.id);
+    if (!isNumber) {
+        return res.status(400).json({ "message": "Bad Request format" });
+    }
     const companyId = Number(req.params.id);
     companyModel.findOne(companyId, (err, company) => {
         if (err) {
-            return res.status(500).json({ "message": err.message });
+            if (err.message == 'Not Found') {
+                return res.status(404).json({ "message": err.message });
+            }
         }
         res.status(200).json({ "data": company });
     });
 }));
 companyRouter.put("/:id", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    var isNumber = /^[0-9]+$/.test(req.params.id);
+    if (!isNumber) {
+        return res.status(400).json({ "message": "Bad Request format" });
+    }
     const company = req.body;
-    companyModel.update(company, (err) => {
-        if (err) {
-            return res.status(500).json({ "message": err.message });
-        }
-        res.status(200).send();
-    });
-}));
-companyRouter.delete("/:id", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    console.log(company);
     const companyId = Number(req.params.id);
-    companyModel.deleteOne(companyId, (err) => {
+    companyModel.update(company, companyId, (err) => {
         if (err) {
-            return res.status(404).json({ "message": err.message });
+            if (err.message == 'Not Found') {
+                return res.status(404).json({ "message": err.message });
+            }
         }
         res.status(204).send();
     });
+}));
+companyRouter.delete("/:id", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    var isNumber = /^[0-9]+$/.test(req.params.id);
+    if (!isNumber) {
+        return res.status(400).json({ "message": "Bad Request format" });
+    }
+    const companyId = Number(req.params.id);
+    companyModel.deleteOne(companyId, (err) => {
+        if (err) {
+            if (err.message == 'Not Found') {
+                res.status(404).json({ "message": err.message });
+            }
+        }
+        else {
+            res.status(204).send();
+        }
+    });
+}));
+companyRouter.delete("/", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    return res.status(405).json({ message: "Method not allowed" });
+}));
+companyRouter.put("/", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    return res.status(405).json({ message: "Method not allowed" });
+}));
+companyRouter.post("/:id", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    return res.status(405).json({ message: "Method not allowed" });
 }));
