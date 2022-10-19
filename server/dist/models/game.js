@@ -15,7 +15,6 @@ const create = (game, companyId, callback) => {
         else {
             db_1.db.query(queryString, [game.name, game.summary, game.releaseDate, companyId, game.startingPrice, game.thumbnail], (secondError, result) => {
                 if (secondError) {
-                    console.log(secondError.message);
                     callback(secondError);
                     return;
                 }

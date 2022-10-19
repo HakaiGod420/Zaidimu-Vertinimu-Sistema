@@ -136,6 +136,16 @@ gameRouter.put("/", async (req: Request, res: Response) => {
     return res.status(405).json({ message: "Method not allowed" })
 })
 
+gameRouter.patch("/", async (req: Request, res: Response) => {
+
+    return res.status(405).json({ message: "Method not allowed" })
+})
+
+gameRouter.patch("/:id", async (req: Request, res: Response) => {
+
+    return res.status(404).json({ message: "Not found" })
+})
+
 gameRouter.post("/:id", async (req: Request, res: Response) => {
 
     return res.status(405).json({ message: "Method not allowed" })

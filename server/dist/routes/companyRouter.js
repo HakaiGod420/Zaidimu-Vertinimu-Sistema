@@ -114,3 +114,9 @@ companyRouter.put("/", (req, res) => __awaiter(void 0, void 0, void 0, function*
 companyRouter.post("/:id", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     return res.status(405).json({ message: "Method not allowed" });
 }));
+companyRouter.patch("/", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    return res.status(405).json({ message: "Method not allowed" });
+}));
+companyRouter.patch("/:id", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    return res.status(404).json({ message: "Not found" });
+}));

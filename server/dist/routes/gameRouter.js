@@ -159,6 +159,12 @@ gameRouter.delete("/", (req, res) => __awaiter(void 0, void 0, void 0, function*
 gameRouter.put("/", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     return res.status(405).json({ message: "Method not allowed" });
 }));
+gameRouter.patch("/", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    return res.status(405).json({ message: "Method not allowed" });
+}));
+gameRouter.patch("/:id", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    return res.status(404).json({ message: "Not found" });
+}));
 gameRouter.post("/:id", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     return res.status(405).json({ message: "Method not allowed" });
 }));

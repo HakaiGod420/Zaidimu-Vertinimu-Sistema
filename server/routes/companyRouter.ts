@@ -95,4 +95,14 @@ companyRouter.post("/:id", async (req: Request, res: Response) => {
     return res.status(405).json({message:"Method not allowed"})
 })
 
+companyRouter.patch("/", async (req: Request, res: Response) => {
+
+    return res.status(405).json({ message: "Method not allowed" })
+})
+
+companyRouter.patch("/:id", async (req: Request, res: Response) => {
+
+    return res.status(404).json({ message: "Not found" })
+})
+
 export { companyRouter };
