@@ -48,7 +48,7 @@ companyRouter.put("/:id", async (req: Request, res: Response) => {
     }
 
     const company: Company = req.body;
-    console.log(company)
+    
     const companyId: number = Number(req.params.id);
     companyModel.update(company,companyId, (err: Error) => {
         if (err) {

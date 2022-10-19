@@ -6,21 +6,38 @@ const gameRouter = express.Router({ mergeParams: true });
 
 
 gameRouter.post("/", async (req: Request, res: Response) => {
+    var isNumber = /^[0-9]+$/.test(req.params.companyId);
+    if (!isNumber) {
+        return res.status(400).json({ "message": "Bad Request format" });
+    }
+    const companyId: number = Number(req.params.companyId);
     const newGame: Game = req.body;
-    gameModel.create(newGame, (err: Error, gameId: number) => {
-        if (err) {
-            return res.status(500).json({ "message": err.message });
-        }
+    gameModel.create(newGame, companyId, (err: Error, gameId: number) => {
 
-        res.status(200).json({ "gameID": gameId });
+        if (err) {
+            if (err.message == 'Not Found') {
+                return res.status(404).json({ "message": err.message });
+            } else {
+                return res.status(500).json({ "message": err.message });
+            }
+        }
+        res.status(201).json({ "gameID": gameId });
     });
 });
 
 gameRouter.get("/", async (req: Request, res: Response) => {
+    var isNumber = /^[0-9]+$/.test(req.params.companyId);
+    if (!isNumber) {
+        return res.status(400).json({ "message": "Bad Request format" });
+    }
     const companyId: number = Number(req.params.companyId);
     gameModel.findAll(companyId, (err: Error, orders: Game[]) => {
         if (err) {
-            return res.status(500).json({ "errorMessage": err.message });
+            if (err.message == 'Not Found') {
+                return res.status(404).json({ "message": err.message });
+            } else {
+                return res.status(500).json({ "errorMessage": err.message });
+            }
         }
         res.status(200).json({ "data": orders });
     });
@@ -28,34 +45,100 @@ gameRouter.get("/", async (req: Request, res: Response) => {
 
 
 gameRouter.get("/:id", async (req: Request, res: Response) => {
+
+    var isNumber = /^[0-9]+$/.test(req.params.id);
+    var isNumberGameId = /^[0-9]+$/.test(req.params.companyId);
+    if (!isNumber) {
+        return res.status(400).json({ "message": "Bad Request format" });
+    }
+    if (!isNumberGameId) {
+        return res.status(400).json({ "message": "Bad Request format" });
+    }
+
     const gameId: number = Number(req.params.id);
     const companyId: number = Number(req.params.companyId);
-    gameModel.findOne(gameId, companyId, (err: Error, order: Game) => {
+    gameModel.findOne(gameId, companyId, (err: Error, game: Game) => {
         if (err) {
-            return res.status(500).json({ "message": err.message });
+            if (err.message == 'Not found game with this id') {
+                return res.status(404).json({ "message": err.message });
+            } else if (err.message == 'Not Found') {
+                return res.status(404).json({ "message": err.message });
+            } else {
+                return res.status(500).json({ "message": err.message });
+            }
+
         }
-        res.status(200).json({ "data": order });
+        res.status(200).json({ "data": game });
     })
 });
 
 gameRouter.delete("/:id", async (req: Request, res: Response) => {
+    var isNumber = /^[0-9]+$/.test(req.params.id);
+    var isNumberGameId = /^[0-9]+$/.test(req.params.companyId);
+    if (!isNumber) {
+        return res.status(400).json({ "message": "Bad Request format" });
+    }
+    if (!isNumberGameId) {
+        return res.status(400).json({ "message": "Bad Request format" });
+    }
+    const companyId: number = Number(req.params.companyId);
     const gameId: number = Number(req.params.id);
-    gameModel.deleteOne(gameId, (err: Error) => {
+
+    gameModel.deleteOne(gameId, companyId, (err: Error) => {
         if (err) {
-            return res.status(404).json({ "message": err.message });
+            if (err.message == 'Not Found') {
+                return res.status(404).json({ "message": err.message });
+            } else {
+                return res.status(500).json({ "message": err.message });
+            }
+
         }
         res.status(204).send();
     })
 });
 
 gameRouter.put("/:id", async (req: Request, res: Response) => {
+    var isNumber = /^[0-9]+$/.test(req.params.id);
+    var isNumberGameId = /^[0-9]+$/.test(req.params.companyId);
+    if (!isNumber) {
+        return res.status(400).json({ "message": "Bad Request format" });
+    }
+    if (!isNumberGameId) {
+        return res.status(400).json({ "message": "Bad Request format" });
+    }
+
+    const companyId: number = Number(req.params.companyId);
+    const gameId: number = Number(req.params.id);
+
     const game: Game = req.body;
-    gameModel.update(game, (err: Error) => {
+    gameModel.update(game, gameId, companyId, (err: Error) => {
         if (err) {
-            return res.status(500).json({ "message": err.message });
+            if (err.message == 'Not found game with this id') {
+                return res.status(404).json({ "message": err.message });
+            } else if (err.message == 'Not Found') {
+                return res.status(404).json({ "message": err.message });
+            } else {
+                return res.status(500).json({ "message": err.message });
+            }
         }
-        res.status(200).send();
+        res.status(204).send();
     })
 });
+
+
+gameRouter.delete("/", async (req: Request, res: Response) => {
+
+    return res.status(405).json({ message: "Method not allowed" })
+})
+
+gameRouter.put("/", async (req: Request, res: Response) => {
+
+    return res.status(405).json({ message: "Method not allowed" })
+})
+
+gameRouter.post("/:id", async (req: Request, res: Response) => {
+
+    return res.status(405).json({ message: "Method not allowed" })
+})
 
 export { gameRouter };

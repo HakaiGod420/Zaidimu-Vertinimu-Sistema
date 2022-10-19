@@ -78,7 +78,6 @@ companyRouter.put("/:id", (req, res) => __awaiter(void 0, void 0, void 0, functi
         return res.status(400).json({ "message": "Bad Request format" });
     }
     const company = req.body;
-    console.log(company);
     const companyId = Number(req.params.id);
     companyModel.update(company, companyId, (err) => {
         if (err) {
