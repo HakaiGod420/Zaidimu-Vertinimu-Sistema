@@ -138,6 +138,9 @@ gameRouter.put("/:id", (req, res) => __awaiter(void 0, void 0, void 0, function*
     const companyId = Number(req.params.companyId);
     const gameId = Number(req.params.id);
     const game = req.body;
+    if (game.name == undefined || game.summary == undefined || game.releaseDate == undefined || game.startingPrice == undefined || game.thumbnail == undefined) {
+        return res.status(400).json({ "message": "Bad Request format" });
+    }
     gameModel.update(game, gameId, companyId, (err) => {
         if (err) {
             if (err.message == 'Not found game with this id') {

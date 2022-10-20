@@ -48,6 +48,14 @@ app.use((err, req, res, next) => {
 companyRouter_1.companyRouter.use('/:companyId/games', gameRouter_1.gameRouter);
 gameRouter_1.gameRouter.use('/:gameId/reviews', reviewRouter_1.reviewRouter);
 app.use("/companies", companyRouter_1.companyRouter);
+app.use(function (req, res, next) {
+    res.status(404);
+    // respond with json
+    if (req.accepts('json')) {
+        res.json({ error: 'Not found' });
+        return;
+    }
+});
 app.get('*', function (req, res) {
     res.status(404).json({ message: "Page was not found" });
 });

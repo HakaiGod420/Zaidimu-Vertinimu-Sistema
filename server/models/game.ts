@@ -2,12 +2,16 @@ import { Game, BasicGame, GameWithDetails } from "../types/game";
 import { db } from "../db";
 import { OkPacket, RowDataPacket } from "mysql2";
 
+
+
+
 export const create = (game: Game, companyId: number, callback: Function) => {
   const queryString = "INSERT INTO `game`(`Name`, `Summary`, `ReleaseDate`, `CompanyID`, `StartingPrice`, `Thumbnail`) VALUES (?,?,?,?,?,?)"
 
   const checkQueryString = "SELECT id FROM company WHERE id=?;"
 
 
+  
   db.query(checkQueryString, companyId, (err, result) => {
     const row = (<RowDataPacket>result)[0]
     if (row == undefined) {

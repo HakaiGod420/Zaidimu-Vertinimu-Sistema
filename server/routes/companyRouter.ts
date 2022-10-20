@@ -15,6 +15,15 @@ companyRouter.get("/", async (req: Request, res: Response) => {
 
 companyRouter.post("/", async (req: Request, res: Response) => {
     const newCompany: Company = req.body;
+    if(newCompany.creationDate == undefined || newCompany.image == undefined || newCompany.name == undefined){
+        return res.status(400).json({ "message": 'Bad Request' });
+    }
+
+    if(!Date.parse(newCompany.creationDate.toString())){
+        return res.status(400).json({ "message": "Bad date format" });
+    }
+
+
     companyModel.create(newCompany, (err: Error, id: number) => {
         if (err) {
             return res.status(500).json({ "message": err.message });
@@ -48,6 +57,16 @@ companyRouter.put("/:id", async (req: Request, res: Response) => {
     }
 
     const company: Company = req.body;
+
+    if(company.creationDate == undefined || company.image == undefined || company.name == undefined){
+        return res.status(400).json({ "message": 'Bad Request' });
+    }
+    
+    if(!Date.parse(company.creationDate.toString())){
+        return res.status(400).json({ "message": "Bad date format" });
+    }
+    
+    //if(company.creationDate.)
     
     const companyId: number = Number(req.params.id);
     companyModel.update(company,companyId, (err: Error) => {

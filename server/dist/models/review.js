@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.update = exports.deleteOne = exports.create = exports.findOne = exports.findAll = void 0;
 const db_1 = require("../db");
 const findAll = (gameID, companyId, callback) => {
-    const queryString = "SELECT * FROM `review` INNER JOIN game on GameId=game.id WHERE GameId=? and game.CompanyID = ?;";
+    const queryString = "SELECT review.id,review.Comment,review.Rating,review.UserId,review.GameId,review.PostDate,game.id as'GameID' FROM `review` INNER JOIN game on GameId=game.id WHERE GameId=? and game.CompanyID = ?;";
     const checkQueryStringCompany = "SELECT id FROM company WHERE id=?;";
     const checkQueryStringGame = "SELECT id FROM game WHERE id=?;";
     db_1.db.query(checkQueryStringCompany, companyId, (err, result) => {
@@ -184,13 +184,46 @@ const deleteOne = (reviewId, gameId, companyId, callback) => {
     });
 };
 exports.deleteOne = deleteOne;
-const update = (review, callback) => {
+const update = (review, gameId, companyId, reviewId, callback) => {
     const queryString = "UPDATE `review` SET `Comment`=?,`Rating`=?,`UserId`=?,`GameId`=?,`PostDate`=? WHERE id=?";
-    db_1.db.query(queryString, [review.comment, review.rating, review.user.id, review.game.id, review.postDate, review.id], (err, result) => {
-        if (err) {
-            callback(err);
+    const checkQueryStringCompany = "SELECT id FROM company WHERE id=?;";
+    const checkQueryStringGame = "SELECT id FROM game WHERE id=?;";
+    const checkQueryStringReview = "SELECT id FROM review WHERE id=?;";
+    db_1.db.query(checkQueryStringCompany, companyId, (err, result) => {
+        const row = result[0];
+        if (row == undefined) {
+            const err2 = new Error('Not Found');
+            callback(err2);
+            return;
         }
-        callback(null);
+        else {
+            db_1.db.query(checkQueryStringGame, gameId, (err, result) => {
+                const row = result[0];
+                if (row == undefined) {
+                    const err2 = new Error('Not Found');
+                    callback(err2);
+                    return;
+                }
+                else {
+                    db_1.db.query(checkQueryStringReview, reviewId, (err, result) => {
+                        const row = result[0];
+                        if (row == undefined) {
+                            const err2 = new Error('Not Found');
+                            callback(err2);
+                            return;
+                        }
+                        else {
+                            db_1.db.query(queryString, [review.comment, review.rating, review.user.id, gameId, review.postDate, reviewId], (err, result) => {
+                                if (err) {
+                                    callback(err);
+                                }
+                                callback(null);
+                            });
+                        }
+                    });
+                }
+            });
+        }
     });
 };
 exports.update = update;

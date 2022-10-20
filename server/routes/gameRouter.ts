@@ -12,6 +12,17 @@ gameRouter.post("/", async (req: Request, res: Response) => {
     }
     const companyId: number = Number(req.params.companyId);
     const newGame: Game = req.body;
+
+    if(newGame.name == undefined || newGame.summary == undefined || newGame.releaseDate == undefined || newGame.startingPrice == undefined || newGame.thumbnail == undefined){
+        return res.status(400).json({ "message": "Bad Request format" });
+    }
+
+    if(!Date.parse(newGame.releaseDate.toString())){
+        return res.status(400).json({ "message": "Bad date format" });
+    }else if(!Number.parseFloat(newGame.startingPrice.toString())){
+        return res.status(400).json({ "message": "Bad starting price format" });
+    }
+
     gameModel.create(newGame, companyId, (err: Error, gameId: number) => {
 
         if (err) {
@@ -111,6 +122,17 @@ gameRouter.put("/:id", async (req: Request, res: Response) => {
     const gameId: number = Number(req.params.id);
 
     const game: Game = req.body;
+
+    if(game.name == undefined || game.summary == undefined || game.releaseDate == undefined || game.startingPrice == undefined || game.thumbnail == undefined){
+        return res.status(400).json({ "message": "Bad Request format" });
+    }
+
+    if(!Date.parse(game.releaseDate.toString())){
+        return res.status(400).json({ "message": "Bad date format" });
+    }else if(!Number.parseFloat(game.startingPrice.toString())){
+        return res.status(400).json({ "message": "Bad starting price format" });
+    }
+    
     gameModel.update(game, gameId, companyId, (err: Error) => {
         if (err) {
             if (err.message == 'Not found game with this id') {

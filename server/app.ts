@@ -24,6 +24,17 @@ companyRouter.use('/:companyId/games',gameRouter)
 gameRouter.use('/:gameId/reviews',reviewRouter);
 app.use("/companies", companyRouter);
 
+
+
+app.use(function(req, res, next) {
+  res.status(404);
+  // respond with json
+  if (req.accepts('json')) {
+    res.json({ error: 'Not found' });
+    return;
+  }
+});
+
 app.get('*', function(req, res){
     res.status(404).json({message: "Page was not found"});
   });
