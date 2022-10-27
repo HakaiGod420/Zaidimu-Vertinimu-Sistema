@@ -4,6 +4,7 @@ import * as bodyParser from "body-parser";
 import {companyRouter} from "./routes/companyRouter";
 import {gameRouter} from "./routes/gameRouter";
 import { reviewRouter } from "./routes/reviewRouter";
+import  {userRouter} from "./routes/userRouter"
 
 const app = express();
 dotenv.config();
@@ -24,6 +25,7 @@ companyRouter.use('/:companyId/games',gameRouter)
 gameRouter.use('/:gameId/reviews',reviewRouter);
 app.use("/companies", companyRouter);
 
+app.use('/users',userRouter)
 
 
 app.use(function(req, res, next) {

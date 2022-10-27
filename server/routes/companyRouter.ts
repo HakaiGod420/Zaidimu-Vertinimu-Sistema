@@ -3,8 +3,8 @@ import express, { Request, Response } from "express";
 import * as companyModel from "../models/company";
 import { Company, BasicCompany } from "../types/company";
 const companyRouter = express.Router();
-
-companyRouter.get("/", async (req: Request, res: Response) => {
+const auth = require("../middleware/auth")
+companyRouter.get("/",auth, async (req: Request, res: Response) => {
     companyModel.findAll((err: Error, orders: Company[]) => {
         if (err) {
             return res.status(500).json({ "errorMessage": err.message });

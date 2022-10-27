@@ -4,5 +4,8 @@ export interface BasicUser{
 
 export interface User extends BasicUser{
     nickname: string,
-    firstTimeLogin: boolean
+    password: string,
+    email: string,
+    role: string,
+    token: string
 }
