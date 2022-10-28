@@ -1,6 +1,6 @@
 import express, { Request, Response } from "express";
 import * as userModel from "../models/user";
-import {BasicUser,User} from '../types/user'
+import { BasicUser, User } from '../types/user'
 const userRouter = express.Router();
 const bcrypt = require('bcrypt');
 var jwt = require('jsonwebtoken');
@@ -8,7 +8,7 @@ var jwt = require('jsonwebtoken');
 userRouter.post("/register", async (req: Request, res: Response) => {
     const newUser: User = req.body;
 
-    if(newUser.nickname == undefined || newUser.password == undefined || newUser.email == undefined){
+    if (newUser.nickname == undefined || newUser.password == undefined || newUser.email == undefined) {
         return res.status(400).json({ "message": 'Bad Request' });
     }
 
@@ -20,31 +20,30 @@ userRouter.post("/register", async (req: Request, res: Response) => {
 
     userModel.create(newUser, (err: Error, id: number) => {
         if (err) {
-            return res.status(500).json({ "message": err.message });
+            if (err.message == 'User already exist with this email') {
+                return res.status(500).json({ "message": err.message });
+            }
         }
         newUser.id = id;
-        newUser.role = "User"
+        newUser.isAdmin = false
 
         const token = jwt.sign(
-            { user_id: newUser.id, email:newUser.email,role:newUser.role },
+            { user_id: newUser.id, email: newUser.email, isAdmin: newUser.isAdmin },
             process.env.TOKEN_KEY,
             {
-              expiresIn: "2h",
+                expiresIn: "2h",
             }
-          );
-        
+        );
+
         newUser.token = token;
         return res.status(201).json(newUser);
     });
-
-
-    
 });
 
 
 userRouter.post("/login", async (req: Request, res: Response) => {
     const user: User = req.body;
-    if(user.email == undefined || user.password == undefined){
+    if (user.email == undefined || user.password == undefined) {
         return res.status(400).json({ "message": 'Bad Request' });
     }
 
@@ -59,16 +58,16 @@ userRouter.post("/login", async (req: Request, res: Response) => {
             }
         }
 
-        if(!await bcrypt.compare(writenPass, user.password)){
-            return res.status(400).json({"error:":"Invalid Credentials"});
+        if (!await bcrypt.compare(writenPass, user.password)) {
+            return res.status(400).json({ "error:": "Invalid Credentials" });
         }
         const token = jwt.sign(
-            { user_id: user.id, email:user.email,role:user.role },
+            { user_id: user.id, email: user.email, IsAdmin: user.isAdmin },
             process.env.TOKEN_KEY,
             {
-              expiresIn: "2h",
+                expiresIn: "2h",
             }
-          );
+        );
         user.token = token;
         res.status(200).json({ user });
     })

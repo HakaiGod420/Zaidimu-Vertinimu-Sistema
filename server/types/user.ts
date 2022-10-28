@@ -6,6 +6,6 @@ export interface User extends BasicUser{
     nickname: string,
     password: string,
     email: string,
-    role: string,
+    isAdmin: boolean,
     token: string
 }

@@ -4,7 +4,10 @@ import * as companyModel from "../models/company";
 import { Company, BasicCompany } from "../types/company";
 const companyRouter = express.Router();
 const auth = require("../middleware/auth")
-companyRouter.get("/",auth, async (req: Request, res: Response) => {
+const authForAdmin = require("../middleware/authForAdmin")
+
+
+companyRouter.get("/", authForAdmin, async (req: Request, res: Response) => {
     companyModel.findAll((err: Error, orders: Company[]) => {
         if (err) {
             return res.status(500).json({ "errorMessage": err.message });
@@ -15,11 +18,11 @@ companyRouter.get("/",auth, async (req: Request, res: Response) => {
 
 companyRouter.post("/", async (req: Request, res: Response) => {
     const newCompany: Company = req.body;
-    if(newCompany.creationDate == undefined || newCompany.image == undefined || newCompany.name == undefined){
+    if (newCompany.creationDate == undefined || newCompany.image == undefined || newCompany.name == undefined) {
         return res.status(400).json({ "message": 'Bad Request' });
     }
 
-    if(!Date.parse(newCompany.creationDate.toString())){
+    if (!Date.parse(newCompany.creationDate.toString())) {
         return res.status(400).json({ "message": "Bad date format" });
     }
 
@@ -33,9 +36,9 @@ companyRouter.post("/", async (req: Request, res: Response) => {
 });
 
 companyRouter.get("/:id", async (req: Request, res: Response) => {
-    
+
     var isNumber = /^[0-9]+$/.test(req.params.id);
-    if(!isNumber){
+    if (!isNumber) {
         return res.status(400).json({ "message": "Bad Request format" });
     }
     const companyId: number = Number(req.params.id);
@@ -52,26 +55,26 @@ companyRouter.get("/:id", async (req: Request, res: Response) => {
 
 companyRouter.put("/:id", async (req: Request, res: Response) => {
     var isNumber = /^[0-9]+$/.test(req.params.id);
-    if(!isNumber){
+    if (!isNumber) {
         return res.status(400).json({ "message": "Bad Request format" });
     }
 
     const company: Company = req.body;
 
-    if(company.creationDate == undefined || company.image == undefined || company.name == undefined){
+    if (company.creationDate == undefined || company.image == undefined || company.name == undefined) {
         return res.status(400).json({ "message": 'Bad Request' });
     }
-    
-    if(!Date.parse(company.creationDate.toString())){
+
+    if (!Date.parse(company.creationDate.toString())) {
         return res.status(400).json({ "message": "Bad date format" });
     }
-    
+
     //if(company.creationDate.)
-    
+
     const companyId: number = Number(req.params.id);
-    companyModel.update(company,companyId, (err: Error) => {
+    companyModel.update(company, companyId, (err: Error) => {
         if (err) {
-            
+
             if (err.message == 'Not Found') {
                 return res.status(404).json({ "message": err.message });
             }
@@ -82,9 +85,9 @@ companyRouter.put("/:id", async (req: Request, res: Response) => {
 });
 
 companyRouter.delete("/:id", async (req: Request, res: Response) => {
-    
+
     var isNumber = /^[0-9]+$/.test(req.params.id);
-    if(!isNumber){
+    if (!isNumber) {
         return res.status(400).json({ "message": "Bad Request format" });
     }
     const companyId: number = Number(req.params.id);
@@ -100,18 +103,18 @@ companyRouter.delete("/:id", async (req: Request, res: Response) => {
 })
 
 companyRouter.delete("/", async (req: Request, res: Response) => {
-    
-    return res.status(405).json({message:"Method not allowed"})
+
+    return res.status(405).json({ message: "Method not allowed" })
 })
 
 companyRouter.put("/", async (req: Request, res: Response) => {
-    
-    return res.status(405).json({message:"Method not allowed"})
+
+    return res.status(405).json({ message: "Method not allowed" })
 })
 
 companyRouter.post("/:id", async (req: Request, res: Response) => {
-    
-    return res.status(405).json({message:"Method not allowed"})
+
+    return res.status(405).json({ message: "Method not allowed" })
 })
 
 companyRouter.patch("/", async (req: Request, res: Response) => {
