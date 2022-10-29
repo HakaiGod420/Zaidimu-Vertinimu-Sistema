@@ -7,7 +7,7 @@ const auth = require("../middleware/auth")
 const authForAdmin = require("../middleware/authForAdmin")
 
 
-companyRouter.get("/", authForAdmin, async (req: Request, res: Response) => {
+companyRouter.get("/", async (req: Request, res: Response) => {
     companyModel.findAll((err: Error, orders: Company[]) => {
         if (err) {
             return res.status(500).json({ "errorMessage": err.message });
@@ -16,7 +16,7 @@ companyRouter.get("/", authForAdmin, async (req: Request, res: Response) => {
     });
 })
 
-companyRouter.post("/", async (req: Request, res: Response) => {
+companyRouter.post("/",authForAdmin, async (req: Request, res: Response) => {
     const newCompany: Company = req.body;
     if (newCompany.creationDate == undefined || newCompany.image == undefined || newCompany.name == undefined) {
         return res.status(400).json({ "message": 'Bad Request' });
@@ -53,7 +53,7 @@ companyRouter.get("/:id", async (req: Request, res: Response) => {
     })
 });
 
-companyRouter.put("/:id", async (req: Request, res: Response) => {
+companyRouter.put("/:id",authForAdmin, async (req: Request, res: Response) => {
     var isNumber = /^[0-9]+$/.test(req.params.id);
     if (!isNumber) {
         return res.status(400).json({ "message": "Bad Request format" });
@@ -84,7 +84,7 @@ companyRouter.put("/:id", async (req: Request, res: Response) => {
     })
 });
 
-companyRouter.delete("/:id", async (req: Request, res: Response) => {
+companyRouter.delete("/:id",authForAdmin, async (req: Request, res: Response) => {
 
     var isNumber = /^[0-9]+$/.test(req.params.id);
     if (!isNumber) {
@@ -102,27 +102,27 @@ companyRouter.delete("/:id", async (req: Request, res: Response) => {
     })
 })
 
-companyRouter.delete("/", async (req: Request, res: Response) => {
+companyRouter.delete("/", authForAdmin, async (req: Request, res: Response) => {
 
     return res.status(405).json({ message: "Method not allowed" })
 })
 
-companyRouter.put("/", async (req: Request, res: Response) => {
+companyRouter.put("/", authForAdmin, async (req: Request, res: Response) => {
 
     return res.status(405).json({ message: "Method not allowed" })
 })
 
-companyRouter.post("/:id", async (req: Request, res: Response) => {
+companyRouter.post("/:id",authForAdmin, async (req: Request, res: Response) => {
 
     return res.status(405).json({ message: "Method not allowed" })
 })
 
-companyRouter.patch("/", async (req: Request, res: Response) => {
+companyRouter.patch("/",authForAdmin, async (req: Request, res: Response) => {
 
     return res.status(405).json({ message: "Method not allowed" })
 })
 
-companyRouter.patch("/:id", async (req: Request, res: Response) => {
+companyRouter.patch("/:id",authForAdmin, async (req: Request, res: Response) => {
 
     return res.status(404).json({ message: "Not found" })
 })

@@ -6,7 +6,7 @@ const config = process.env;
 const verifyToken = (req: Request, res: Response, next: any) => {
   const token = req.header('Authorization')?.replace('Bearer ', '');
   if (!token) {
-    return res.status(403).json({ "error": "A token is required for authentication" });
+    return res.status(401).json({ "error": "A token is required for authentication" });
   }
   try {
     const decoded = jwt.verify(token, config.TOKEN_KEY);

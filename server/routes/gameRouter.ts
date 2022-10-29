@@ -3,9 +3,11 @@ import * as gameModel from "../models/game"
 import { Game, BasicGame, GameWithDetails } from "../types/game";
 const gameRouter = express.Router({ mergeParams: true });
 
+const auth = require("../middleware/auth")
+const authForAdmin = require("../middleware/authForAdmin")
 
 
-gameRouter.post("/", async (req: Request, res: Response) => {
+gameRouter.post("/",authForAdmin, async (req: Request, res: Response) => {
     var isNumber = /^[0-9]+$/.test(req.params.companyId);
     if (!isNumber) {
         return res.status(400).json({ "message": "Bad Request format" });
@@ -83,7 +85,7 @@ gameRouter.get("/:id", async (req: Request, res: Response) => {
     })
 });
 
-gameRouter.delete("/:id", async (req: Request, res: Response) => {
+gameRouter.delete("/:id",authForAdmin, async (req: Request, res: Response) => {
     var isNumber = /^[0-9]+$/.test(req.params.id);
     var isNumberGameId = /^[0-9]+$/.test(req.params.companyId);
     if (!isNumber) {
@@ -108,7 +110,7 @@ gameRouter.delete("/:id", async (req: Request, res: Response) => {
     })
 });
 
-gameRouter.put("/:id", async (req: Request, res: Response) => {
+gameRouter.put("/:id",authForAdmin, async (req: Request, res: Response) => {
     var isNumber = /^[0-9]+$/.test(req.params.id);
     var isNumberGameId = /^[0-9]+$/.test(req.params.companyId);
     if (!isNumber) {
