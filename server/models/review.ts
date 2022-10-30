@@ -1,6 +1,7 @@
 import { db } from "../db";
 import { Review, BasicReview, ReviewWithDetails } from "../types/review";
 import { OkPacket, RowDataPacket } from "mysql2";
+import * as dbCheck from "../middleware/dbChecks"
 
 
 
@@ -42,7 +43,7 @@ export const findAll = (gameID: number, companyId: number, callback: Function) =
                                     id: row.GameId
                                 },
                                 user: {
-                                    id: row.UserId
+                                    user_id: row.UserId
                                 }
                             }
                             reviews.push(game);
@@ -98,7 +99,7 @@ export const findOne = (reviewId: number, gameId: number, companyId: number, cal
                             rating: row.Rating,
                             postDate: row.PostDate,
                             user: {
-                                id: row.UserId
+                                user_id: row.UserId
                             },
                             game: {
                                 id: row.GameId
@@ -146,7 +147,7 @@ export const create = (review: Review, gameId: number, companyId: number, callba
                 } else {
                     db.query(
                         queryString,
-                        [review.comment, review.rating, review.user.id, gameId, review.postDate],
+                        [review.comment, review.rating, review.user.user_id, gameId, review.postDate],
                         (err, result) => {
                             if (err) { callback(err); return };
 
@@ -162,12 +163,13 @@ export const create = (review: Review, gameId: number, companyId: number, callba
 
 };
 
-export const deleteOne = (reviewId: number, gameId: number, companyId: number, callback: Function) => {
+export const deleteOne = (reviewId: number, gameId: number, companyId: number, userId: number, isAdmin: boolean, callback: Function) => {
 
     const queryString = "DELETE FROM `review` WHERE id=? and GameId=?"
     const checkQueryStringCompany = "SELECT id FROM company WHERE id=?;"
     const checkQueryStringGame = "SELECT id FROM game WHERE id=?;"
     const checkQueryStringReview = "SELECT id FROM review WHERE id=?;"
+
     db.query(checkQueryStringCompany, companyId, (err, result) => {
         const row = (<RowDataPacket>result)[0];
 
@@ -192,10 +194,20 @@ export const deleteOne = (reviewId: number, gameId: number, companyId: number, c
                             callback(err2)
                             return;
                         } else {
-                            db.query(queryString, [reviewId, gameId], (err, result) => {
-                                if (err) { callback(err) }
-                                callback(null)
+
+                            dbCheck.checkIfEditingSelectedUser(reviewId, userId, isAdmin, (check: Boolean) => {
+                                if (check) {
+                                    db.query(queryString, [reviewId, gameId], (err, result) => {
+                                        if (err) { callback(err) }
+                                        callback(null)
+                                    });
+                                } else {
+                                    const err2 = new Error('Forbiden')
+                                    callback(err2)
+                                    return;
+                                }
                             });
+
                         }
                     });
                 }
@@ -208,12 +220,13 @@ export const deleteOne = (reviewId: number, gameId: number, companyId: number, c
 }
 
 
-export const update = (review: Review,gameId:number,companyId:number,reviewId:number, callback: Function) => {
-    const queryString = "UPDATE `review` SET `Comment`=?,`Rating`=?,`UserId`=?,`GameId`=?,`PostDate`=? WHERE id=?";
+export const update = (review: Review, gameId: number, companyId: number, reviewId: number, userId: number, isAdmin: boolean, callback: Function) => {
+    const queryString = "UPDATE `review` SET `Comment`=?,`Rating`=?,`GameId`=?,`PostDate`=? WHERE id=?";
 
     const checkQueryStringCompany = "SELECT id FROM company WHERE id=?;"
     const checkQueryStringGame = "SELECT id FROM game WHERE id=?;"
     const checkQueryStringReview = "SELECT id FROM review WHERE id=?;"
+
 
 
     db.query(checkQueryStringCompany, companyId, (err, result) => {
@@ -240,14 +253,23 @@ export const update = (review: Review,gameId:number,companyId:number,reviewId:nu
                             callback(err2)
                             return;
                         } else {
-                            db.query(
-                                queryString,
-                                [review.comment, review.rating, review.user.id, gameId, review.postDate, reviewId],
-                                (err, result) => {
-                                    if (err) { callback(err) }
-                                    callback(null);
+                            dbCheck.checkIfEditingSelectedUser(reviewId, userId, isAdmin, (check: Boolean) => {
+                                if (check) {
+                                    db.query(
+                                        queryString,
+                                        [review.comment, review.rating, gameId, review.postDate, reviewId],
+                                        (err, result) => {
+                                            if (err) { callback(err) }
+                                            callback(null);
+                                        }
+                                    );
+                                } else {
+                                    const err2 = new Error('Forbiden')
+                                    callback(err2)
+                                    return;
                                 }
-                            );
+                            })
+
                         }
                     });
                 }

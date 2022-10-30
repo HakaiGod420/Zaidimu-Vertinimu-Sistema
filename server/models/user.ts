@@ -53,7 +53,7 @@ export const findOne = (email: string, callback: Function) => {
             checkRole = true;
         }
         const user: User = {
-            id: row.id,
+            user_id: row.id,
             nickname: row.username,
             password: row.password,
             email: row.email,

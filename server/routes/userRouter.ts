@@ -24,11 +24,11 @@ userRouter.post("/register", async (req: Request, res: Response) => {
                 return res.status(500).json({ "message": err.message });
             }
         }
-        newUser.id = id;
+        newUser.user_id = id;
         newUser.isAdmin = false
 
         const token = jwt.sign(
-            { user_id: newUser.id, email: newUser.email, isAdmin: newUser.isAdmin },
+            { user_id: newUser.user_id, email: newUser.email, isAdmin: newUser.isAdmin },
             process.env.TOKEN_KEY,
             {
                 expiresIn: "2h",
@@ -62,7 +62,7 @@ userRouter.post("/login", async (req: Request, res: Response) => {
             return res.status(400).json({ "error:": "Invalid Credentials" });
         }
         const token = jwt.sign(
-            { user_id: user.id, email: user.email, IsAdmin: user.isAdmin },
+            { user_id: user.user_id, email: user.email, IsAdmin: user.isAdmin },
             process.env.TOKEN_KEY,
             {
                 expiresIn: "2h",

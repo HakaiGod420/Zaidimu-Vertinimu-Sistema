@@ -5,7 +5,6 @@ import { BasicCompany, Company } from "../types/company";
 
 export const create = (company: Company, callback: Function) => {
     const queryString = "INSERT INTO `company`(`Name`, `CreationDate`, `Image`) VALUES (?, ?, ?)"
-
     db.query(
         queryString,
         [company.name, company.creationDate, company.image],

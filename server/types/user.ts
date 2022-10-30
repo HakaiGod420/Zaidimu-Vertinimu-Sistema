@@ -1,5 +1,5 @@
 export interface BasicUser{
-    id: number
+    user_id: number
 }
 
 export interface User extends BasicUser{

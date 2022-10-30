@@ -3,6 +3,7 @@ import express, { Request, Response } from "express";
 import * as companyModel from "../models/company";
 import { Company, BasicCompany } from "../types/company";
 const companyRouter = express.Router();
+
 const auth = require("../middleware/auth")
 const authForAdmin = require("../middleware/authForAdmin")
 
