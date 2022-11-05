@@ -27,12 +27,18 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.db = void 0;
-const mysql2_1 = __importDefault(require("mysql2"));
+const mysql_1 = __importDefault(require("mysql"));
 const dotenv = __importStar(require("dotenv"));
+const fs = __importStar(require("fs"));
 dotenv.config();
-exports.db = mysql2_1.default.createConnection({
+exports.db = mysql_1.default.createConnection({
     host: process.env.DB_HOST,
     user: process.env.DB_USER,
     password: process.env.DB_PWD,
-    database: process.env.DB_NAME
+    database: process.env.DB_NAME,
+    port: 3306,
+    ssl: {
+        rejectUnauthorized: true,
+        ca: fs.readFileSync(__dirname + "/DigiCertGlobalRootCA.crt.pem")
+    }
 });

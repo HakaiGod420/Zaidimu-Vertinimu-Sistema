@@ -40,6 +40,8 @@ const express_1 = __importDefault(require("express"));
 const companyModel = __importStar(require("../models/company"));
 const companyRouter = express_1.default.Router();
 exports.companyRouter = companyRouter;
+const auth = require("../middleware/auth");
+const authForAdmin = require("../middleware/authForAdmin");
 companyRouter.get("/", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     companyModel.findAll((err, orders) => {
         if (err) {
@@ -48,8 +50,14 @@ companyRouter.get("/", (req, res) => __awaiter(void 0, void 0, void 0, function*
         res.status(200).json({ "data": orders });
     });
 }));
-companyRouter.post("/", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+companyRouter.post("/", authForAdmin, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const newCompany = req.body;
+    if (newCompany.creationDate == undefined || newCompany.image == undefined || newCompany.name == undefined) {
+        return res.status(400).json({ "message": 'Bad Request' });
+    }
+    if (!Date.parse(newCompany.creationDate.toString())) {
+        return res.status(400).json({ "message": "Bad date format" });
+    }
     companyModel.create(newCompany, (err, id) => {
         if (err) {
             return res.status(500).json({ "message": err.message });
@@ -72,7 +80,7 @@ companyRouter.get("/:id", (req, res) => __awaiter(void 0, void 0, void 0, functi
         res.status(200).json({ "data": company });
     });
 }));
-companyRouter.put("/:id", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+companyRouter.put("/:id", authForAdmin, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var isNumber = /^[0-9]+$/.test(req.params.id);
     if (!isNumber) {
         return res.status(400).json({ "message": "Bad Request format" });
@@ -80,6 +88,9 @@ companyRouter.put("/:id", (req, res) => __awaiter(void 0, void 0, void 0, functi
     const company = req.body;
     if (company.creationDate == undefined || company.image == undefined || company.name == undefined) {
         return res.status(400).json({ "message": 'Bad Request' });
+    }
+    if (!Date.parse(company.creationDate.toString())) {
+        return res.status(400).json({ "message": "Bad date format" });
     }
     //if(company.creationDate.)
     const companyId = Number(req.params.id);
@@ -92,7 +103,7 @@ companyRouter.put("/:id", (req, res) => __awaiter(void 0, void 0, void 0, functi
         res.status(204).send();
     });
 }));
-companyRouter.delete("/:id", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+companyRouter.delete("/:id", authForAdmin, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var isNumber = /^[0-9]+$/.test(req.params.id);
     if (!isNumber) {
         return res.status(400).json({ "message": "Bad Request format" });
@@ -109,18 +120,18 @@ companyRouter.delete("/:id", (req, res) => __awaiter(void 0, void 0, void 0, fun
         }
     });
 }));
-companyRouter.delete("/", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+companyRouter.delete("/", authForAdmin, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     return res.status(405).json({ message: "Method not allowed" });
 }));
-companyRouter.put("/", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+companyRouter.put("/", authForAdmin, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     return res.status(405).json({ message: "Method not allowed" });
 }));
-companyRouter.post("/:id", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+companyRouter.post("/:id", authForAdmin, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     return res.status(405).json({ message: "Method not allowed" });
 }));
-companyRouter.patch("/", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+companyRouter.patch("/", authForAdmin, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     return res.status(405).json({ message: "Method not allowed" });
 }));
-companyRouter.patch("/:id", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+companyRouter.patch("/:id", authForAdmin, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     return res.status(404).json({ message: "Not found" });
 }));

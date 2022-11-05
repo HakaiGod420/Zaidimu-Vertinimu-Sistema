@@ -41,6 +41,7 @@ app.get('*', function(req, res){
     res.status(404).json({message: "Page was not found"});
   });
 
-app.listen(3001, () => {
-console.log("Node server started running at http://localhost:"+3001);
+const port = process.env.PORT || 3000
+app.listen(port, () => {
+  console.log(`Example app listening at http://localhost:${port}`)
 });

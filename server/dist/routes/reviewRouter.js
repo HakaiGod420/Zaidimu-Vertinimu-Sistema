@@ -40,6 +40,8 @@ const express_1 = __importDefault(require("express"));
 const reviewModel = __importStar(require("../models/review"));
 const reviewRouter = express_1.default.Router({ mergeParams: true });
 exports.reviewRouter = reviewRouter;
+const auth = require("../middleware/auth");
+const authForAdmin = require("../middleware/authForAdmin");
 reviewRouter.get("/", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var isNumberCompanyId = /^[0-9]+$/.test(req.params.companyId);
     var isNumberGameId = /^[0-9]+$/.test(req.params.gameId);
@@ -82,7 +84,7 @@ reviewRouter.get("/:id", (req, res) => __awaiter(void 0, void 0, void 0, functio
         res.status(200).json({ "data": review });
     });
 }));
-reviewRouter.post("/", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+reviewRouter.post("/", auth, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var isNumberCompanyId = /^[0-9]+$/.test(req.params.companyId);
     var isNumberGameId = /^[0-9]+$/.test(req.params.gameId);
     ;
@@ -92,6 +94,18 @@ reviewRouter.post("/", (req, res) => __awaiter(void 0, void 0, void 0, function*
     const gameId = Number(req.params.gameId);
     const companyId = Number(req.params.companyId);
     const newReview = req.body;
+    if (newReview.comment == undefined || newReview.postDate == undefined || newReview.rating == undefined || newReview.user == undefined || newReview.user.user_id == undefined) {
+        return res.status(400).json({ "message": "Bad Request format" });
+    }
+    if (!Date.parse(newReview.postDate.toString())) {
+        return res.status(400).json({ "message": "Bad post date format" });
+    }
+    else if (!Number.parseInt(newReview.rating.toString())) {
+        return res.status(400).json({ "message": "Bad rating format" });
+    }
+    else if (!Number.parseInt(newReview.user.user_id.toString())) {
+        return res.status(400).json({ "message": "Bad user id format" });
+    }
     reviewModel.create(newReview, gameId, companyId, (err, reviewId) => {
         if (err) {
             if (err.message == 'Not Found') {
@@ -104,10 +118,10 @@ reviewRouter.post("/", (req, res) => __awaiter(void 0, void 0, void 0, function*
                 return res.status(500).json({ "errorMessage": err.message });
             }
         }
-        res.status(200).json({ "reviewID": reviewId });
+        res.status(201).json({ "reviewID": reviewId });
     });
 }));
-reviewRouter.delete("/:id", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+reviewRouter.delete("/:id", auth, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var isNumberCompanyId = /^[0-9]+$/.test(req.params.companyId);
     var isNumberGameId = /^[0-9]+$/.test(req.params.gameId);
     var isNumberReviewId = /^[0-9]+$/.test(req.params.id);
@@ -117,10 +131,15 @@ reviewRouter.delete("/:id", (req, res) => __awaiter(void 0, void 0, void 0, func
     const gameId = Number(req.params.gameId);
     const companyId = Number(req.params.companyId);
     const reviewId = Number(req.params.id);
-    reviewModel.deleteOne(reviewId, gameId, companyId, (err) => {
+    const UserId = req.body.user.user_id;
+    const isAdmin = req.body.user.IsAdmin;
+    reviewModel.deleteOne(reviewId, gameId, companyId, UserId, isAdmin, (err) => {
         if (err) {
             if (err.message == 'Not Found') {
                 return res.status(404).json({ "message": err.message });
+            }
+            else if (err.message == 'Forbiden') {
+                return res.status(403).json({ "message": err.message });
             }
             else {
                 return res.status(500).json({ "errorMessage": err.message });
@@ -129,7 +148,7 @@ reviewRouter.delete("/:id", (req, res) => __awaiter(void 0, void 0, void 0, func
         res.status(204).send();
     });
 }));
-reviewRouter.put("/:id", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+reviewRouter.put("/:id", auth, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var isNumberCompanyId = /^[0-9]+$/.test(req.params.companyId);
     var isNumberGameId = /^[0-9]+$/.test(req.params.gameId);
     var isNumberReviewId = /^[0-9]+$/.test(req.params.id);
@@ -140,13 +159,27 @@ reviewRouter.put("/:id", (req, res) => __awaiter(void 0, void 0, void 0, functio
     const companyId = Number(req.params.companyId);
     const reviewId = Number(req.params.id);
     const review = req.body;
-    if (review.comment == undefined || review.postDate == undefined || review.rating == undefined || review.user == undefined || review.user.id == undefined) {
+    const userId = req.body.user.user_id;
+    const isAdmin = req.body.user.IsAdmin;
+    if (review.comment == undefined || review.postDate == undefined || review.rating == undefined || review.user == undefined || review.user.user_id == undefined) {
         return res.status(400).json({ "message": "Bad Request format" });
     }
-    reviewModel.update(review, gameId, companyId, reviewId, (err) => {
+    if (!Date.parse(review.postDate.toString())) {
+        return res.status(400).json({ "message": "Bad post date format" });
+    }
+    else if (!Number.parseInt(review.rating.toString())) {
+        return res.status(400).json({ "message": "Bad rating format" });
+    }
+    else if (!Number.parseInt(review.user.user_id.toString())) {
+        return res.status(400).json({ "message": "Bad user id format" });
+    }
+    reviewModel.update(review, gameId, companyId, reviewId, userId, isAdmin, (err) => {
         if (err) {
             if (err.message == 'Not Found') {
                 return res.status(404).json({ "message": err.message });
+            }
+            else if (err.message == 'Forbiden') {
+                return res.status(403).json({ "message": err.message });
             }
             else {
                 return res.status(500).json({ "errorMessage": err.message });

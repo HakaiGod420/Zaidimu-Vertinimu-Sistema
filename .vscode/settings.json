@@ -1,0 +1,4 @@
+{
+    "appService.defaultWebAppToDeploy": "/subscriptions/46417e54-e1a9-4156-aff4-7b7609c4e00c/AppServices/subscriptions/46417e54-e1a9-4156-aff4-7b7609c4e00c/resourceGroups/videogamerating/providers/Microsoft.Web/sites/videogamerating",
+    "appService.deploySubpath": "server/dist"
+}

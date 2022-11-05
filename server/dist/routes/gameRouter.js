@@ -40,13 +40,24 @@ const express_1 = __importDefault(require("express"));
 const gameModel = __importStar(require("../models/game"));
 const gameRouter = express_1.default.Router({ mergeParams: true });
 exports.gameRouter = gameRouter;
-gameRouter.post("/", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const auth = require("../middleware/auth");
+const authForAdmin = require("../middleware/authForAdmin");
+gameRouter.post("/", authForAdmin, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var isNumber = /^[0-9]+$/.test(req.params.companyId);
     if (!isNumber) {
         return res.status(400).json({ "message": "Bad Request format" });
     }
     const companyId = Number(req.params.companyId);
     const newGame = req.body;
+    if (newGame.name == undefined || newGame.summary == undefined || newGame.releaseDate == undefined || newGame.startingPrice == undefined || newGame.thumbnail == undefined) {
+        return res.status(400).json({ "message": "Bad Request format" });
+    }
+    if (!Date.parse(newGame.releaseDate.toString())) {
+        return res.status(400).json({ "message": "Bad date format" });
+    }
+    else if (!Number.parseFloat(newGame.startingPrice.toString())) {
+        return res.status(400).json({ "message": "Bad starting price format" });
+    }
     gameModel.create(newGame, companyId, (err, gameId) => {
         if (err) {
             if (err.message == 'Not Found') {
@@ -103,7 +114,7 @@ gameRouter.get("/:id", (req, res) => __awaiter(void 0, void 0, void 0, function*
         res.status(200).json({ "data": game });
     });
 }));
-gameRouter.delete("/:id", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+gameRouter.delete("/:id", authForAdmin, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var isNumber = /^[0-9]+$/.test(req.params.id);
     var isNumberGameId = /^[0-9]+$/.test(req.params.companyId);
     if (!isNumber) {
@@ -126,7 +137,7 @@ gameRouter.delete("/:id", (req, res) => __awaiter(void 0, void 0, void 0, functi
         res.status(204).send();
     });
 }));
-gameRouter.put("/:id", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+gameRouter.put("/:id", authForAdmin, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var isNumber = /^[0-9]+$/.test(req.params.id);
     var isNumberGameId = /^[0-9]+$/.test(req.params.companyId);
     if (!isNumber) {
@@ -140,6 +151,12 @@ gameRouter.put("/:id", (req, res) => __awaiter(void 0, void 0, void 0, function*
     const game = req.body;
     if (game.name == undefined || game.summary == undefined || game.releaseDate == undefined || game.startingPrice == undefined || game.thumbnail == undefined) {
         return res.status(400).json({ "message": "Bad Request format" });
+    }
+    if (!Date.parse(game.releaseDate.toString())) {
+        return res.status(400).json({ "message": "Bad date format" });
+    }
+    else if (!Number.parseFloat(game.startingPrice.toString())) {
+        return res.status(400).json({ "message": "Bad starting price format" });
     }
     gameModel.update(game, gameId, companyId, (err) => {
         if (err) {

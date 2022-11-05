@@ -32,6 +32,7 @@ const bodyParser = __importStar(require("body-parser"));
 const companyRouter_1 = require("./routes/companyRouter");
 const gameRouter_1 = require("./routes/gameRouter");
 const reviewRouter_1 = require("./routes/reviewRouter");
+const userRouter_1 = require("./routes/userRouter");
 const app = (0, express_1.default)();
 dotenv.config();
 let cors = require("cors");
@@ -48,6 +49,7 @@ app.use((err, req, res, next) => {
 companyRouter_1.companyRouter.use('/:companyId/games', gameRouter_1.gameRouter);
 gameRouter_1.gameRouter.use('/:gameId/reviews', reviewRouter_1.reviewRouter);
 app.use("/companies", companyRouter_1.companyRouter);
+app.use('/users', userRouter_1.userRouter);
 app.use(function (req, res, next) {
     res.status(404);
     // respond with json
@@ -59,6 +61,7 @@ app.use(function (req, res, next) {
 app.get('*', function (req, res) {
     res.status(404).json({ message: "Page was not found" });
 });
-app.listen(3001, () => {
-    console.log("Node server started running at http://localhost:" + 3001);
+const port = process.env.PORT || 3000;
+app.listen(port, () => {
+    console.log(`Example app listening at http://localhost:${port}`);
 });
