@@ -5,25 +5,26 @@ import { useEffect, useState } from 'react'
 
 const Home: NextPage = () => {
 
-  const [backendData,setBackendData] = useState({})
+  const [backendData, setBackendData] = useState({})
 
-  useEffect(()=>
-  {
-    fetch(`http://localhost:3001/orders`).then(
-      response=> response.json()
-    ).then(data =>{
+  useEffect(() => {
+    fetch(`https://videogamerating.azurewebsites.net/companies`).then(
+      response => response.json()
+    ).then(data => {
       setBackendData(data)
     })
-  },[])
-
+  }, [])
+  console.log(backendData)
   return (
     <div>
       <div>
         <p className='p-5'>Test text</p>
       </div>
-    <div className="flex min-h-screen flex-col items-center justify-center py-2">
-      <p className=' font-bold'>Hello world</p>
-    </div>
+      <div className="flex min-h-screen flex-col items-center justify-center py-2">
+        <p className=' font-bold'>Hello world</p>
+        <div>
+        </div>
+      </div>
 
     </div>
 
