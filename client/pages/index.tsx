@@ -1,33 +1,19 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
 import Image from 'next/image'
-import { useEffect, useState } from 'react'
+import CompaniesShortInfo from '../components/CompaniesShortInfo'
+import Footer from '../components/Footer'
+import Hero from '../components/Hero'
+import Navbar from '../components/Navbar'
 
 const Home: NextPage = () => {
-
-  const [backendData, setBackendData] = useState({})
-
-  useEffect(() => {
-    fetch(`https://videogamerating.azurewebsites.net/companies`).then(
-      response => response.json()
-    ).then(data => {
-      setBackendData(data)
-    })
-  }, [])
-  console.log(backendData)
   return (
     <div>
-      <div>
-        <p className='p-5'>Test text</p>
-      </div>
-      <div className="flex min-h-screen flex-col items-center justify-center py-2">
-        <p className=' font-bold'>Hello world</p>
-        <div>
-        </div>
-      </div>
-
+      <Navbar/>
+      <Hero/>
+      <CompaniesShortInfo />
+      <Footer/>
     </div>
-
   )
 }
 

@@ -10,7 +10,8 @@ export const db = mysql.createConnection({
   password: process.env.DB_PWD,
   database: process.env.DB_NAME,
   port: 3306,
+  /*
   ssl:{
     rejectUnauthorized: true,
-    ca:fs.readFileSync(__dirname+"/DigiCertGlobalRootCA.crt.pem")}
+    ca:fs.readFileSync(__dirname+"/DigiCertGlobalRootCA.crt.pem")}*/
 });
