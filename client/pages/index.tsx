@@ -9,10 +9,10 @@ import Navbar from '../components/Navbar'
 const Home: NextPage = () => {
   return (
     <div>
-      <Navbar/>
-      <Hero/>
+      <Navbar />
+      <Hero />
       <CompaniesShortInfo />
-      <Footer/>
+      <Footer />
     </div>
   )
 }
