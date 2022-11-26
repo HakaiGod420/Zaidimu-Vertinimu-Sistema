@@ -1,6 +1,7 @@
 import React from 'react'
 import { Company } from '../types/company'
 import moment from "moment"
+import Link from 'next/link'
 
 interface Props{
     company : Company
@@ -12,6 +13,7 @@ export default function CompanyCard({company:CompanyProp}:Props) {
     const NewDate = moment(CompanyProp.creationDate).format('YYYY-MM-DD')
     return (
         <div>
+            <Link href={"game/"+CompanyProp.id.toString()}>
 
             <button
                 className="p-8 border border-gray-200 rounded bg-white w-64 hover:bg-gray-50 hover:border-b-4 hover:border-[#00df9a] active:bg-gray-100" >
@@ -25,6 +27,7 @@ export default function CompanyCard({company:CompanyProp}:Props) {
                     </p>
                 </div>
             </button>
+            </Link>
             
         </div>
     )

@@ -7,7 +7,7 @@ import Navbar from '../components/Navbar'
 export default function App() {
     return (
         <body id='root'>
-            <div id='root'>
+            <div>
                 <Navbar />
                 <Hero />
                 <CompaniesShortInfo />
