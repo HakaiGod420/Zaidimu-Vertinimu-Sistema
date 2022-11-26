@@ -9,11 +9,11 @@ const authForAdmin = require("../middleware/authForAdmin")
 
 
 companyRouter.get("/", async (req: Request, res: Response) => {
-    companyModel.findAll((err: Error, orders: Company[]) => {
+    companyModel.findAll((err: Error, companies: Company[]) => {
         if (err) {
             return res.status(500).json({ "errorMessage": err.message });
         }
-        res.status(200).json({ "data": orders });
+        res.status(200).json({companies});
     });
 })
 
