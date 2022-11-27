@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import React from 'react'
 import {
     FaDribbbleSquare,
@@ -17,7 +18,9 @@ export default function Footer() {
           <FaFacebookSquare size={30} />
           <FaInstagram size={30} />
           <FaTwitterSquare size={30} />
+          <Link href={'https://github.com/HakaiGod420'}>
           <FaGithubSquare size={30} />
+          </Link>
           <FaDribbbleSquare size={30} />
       </div>
     </div>

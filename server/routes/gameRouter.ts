@@ -44,7 +44,7 @@ gameRouter.get("/", async (req: Request, res: Response) => {
         return res.status(400).json({ "message": "Bad Request format" });
     }
     const companyId: number = Number(req.params.companyId);
-    gameModel.findAll(companyId, (err: Error, orders: Game[]) => {
+    gameModel.findAll(companyId, (err: Error, games: Game[]) => {
         if (err) {
             if (err.message == 'Not Found') {
                 return res.status(404).json({ "message": err.message });
@@ -52,7 +52,7 @@ gameRouter.get("/", async (req: Request, res: Response) => {
                 return res.status(500).json({ "errorMessage": err.message });
             }
         }
-        res.status(200).json({ "data": orders });
+        res.status(200).json({games});
     });
 });
 

@@ -13,7 +13,7 @@ export default function CompanyCard({company:CompanyProp}:Props) {
     const NewDate = moment(CompanyProp.creationDate).format('YYYY-MM-DD')
     return (
         <div>
-            <Link href={"game/"+CompanyProp.id.toString()}>
+            <Link href={"companies/"+CompanyProp.id.toString()}>
 
             <button
                 className="p-8 border border-gray-200 rounded bg-white w-64 hover:bg-gray-50 hover:border-b-4 hover:border-[#00df9a] active:bg-gray-100" >
@@ -27,8 +27,7 @@ export default function CompanyCard({company:CompanyProp}:Props) {
                     </p>
                 </div>
             </button>
-            </Link>
-            
+            </Link> 
         </div>
     )
 }
