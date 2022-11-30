@@ -8,7 +8,7 @@ import GamesList from '../../components/GamesList';
 
 
 
-const Game = () => {
+const Company = () => {
 
   const [param1, setParam1]=useState<string | string[] | undefined>();
   const router = useRouter();
@@ -29,4 +29,4 @@ const Game = () => {
     </div>
   )
 }
-export default Game
+export default Company

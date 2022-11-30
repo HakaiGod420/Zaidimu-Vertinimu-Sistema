@@ -9,7 +9,7 @@ interface Props{
 function GameCard({game:SelectedGame}:Props) {
   return (
     <div>
-    <Link href={"game/"+SelectedGame.id.toString()}>
+    <Link href={"/games/"+SelectedGame.company.id.toString()+"/"+SelectedGame.id}>
     <button
         className="p-8 border border-gray-200 rounded bg-white min-w-full min-h-full hover:bg-gray-50 hover:border-b-4 hover:border-[#00df9a] active:bg-gray-100" >
         <div className="flex justify-center items-center text-gray-500">

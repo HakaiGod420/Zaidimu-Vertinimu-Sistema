@@ -38,7 +38,7 @@ function GamesList({companyId:CompanyID}:Props) {
 
     return (
         <div className='w-full bg-white py-16 px-4'>
-            <div className='max-w-[1240px] flext items-center justify-center mx-auto pl-9'>
+            <div className='max-w-[1240px] flext items-center justify-center mx-auto'>
                 <div className='grid lg:grid-cols-3 gap-x-1 gap-y-1 pl-4 items-center justify-center   md:grid-cols-2 sm:grid-cols-1'>
                     {!error && data.map(oneGame => (
                         <GameCard game={oneGame} key={oneGame.id} />
