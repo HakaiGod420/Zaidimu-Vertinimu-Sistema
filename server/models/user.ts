@@ -17,7 +17,7 @@ export const create = (user: User, callback: Function) => {
         else {
             db.query(
                 queryString,
-                [user.nickname, user.password, user.email],
+                [user.username, user.password, user.email],
                 (err, result) => {
                     console.log(result)
                     if (err) {
@@ -53,8 +53,8 @@ export const findOne = (email: string, callback: Function) => {
             checkRole = true;
         }
         const user: User = {
+            username: row.username,
             user_id: row.id,
-            nickname: row.username,
             password: row.password,
             email: row.email,
             isAdmin: checkRole,

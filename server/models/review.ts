@@ -6,7 +6,7 @@ import * as dbCheck from "../middleware/dbChecks"
 
 
 export const findAll = (gameID: number, companyId: number, callback: Function) => {
-    const queryString = "SELECT review.id,review.Comment,review.Rating,review.UserId,review.GameId,review.PostDate,game.id as'GameID' FROM `review` INNER JOIN game on GameId=game.id WHERE GameId=? and game.CompanyID = ?;"
+    const queryString = "SELECT review.id,review.Comment,review.Rating,review.UserId,review.GameId,review.PostDate,game.id as'GameID',user.username FROM `review`  INNER JOIN game on GameId=game.id INNER JOIN user on UserId=user.id WHERE GameId=? and game.CompanyID = ?;"
 
     const checkQueryStringCompany = "SELECT id FROM company WHERE id=?;"
     const checkQueryStringGame = "SELECT id FROM game WHERE id=?;"
@@ -43,7 +43,9 @@ export const findAll = (gameID: number, companyId: number, callback: Function) =
                                     id: row.GameId
                                 },
                                 user: {
-                                    user_id: row.UserId
+                                    user_id: row.UserId,
+                                    username: row.username,
+                                    
                                 }
                             }
                             reviews.push(game);
@@ -61,7 +63,7 @@ export const findAll = (gameID: number, companyId: number, callback: Function) =
 
 export const findOne = (reviewId: number, gameId: number, companyId: number, callback: Function) => {
 
-    const queryString = "SELECT review.id as 'reviewID',review.Comment,review.Rating,review.PostDate,review.UserId,game.id as 'GameId' FROM `review` INNER JOIN game on GameId=game.id WHERE review.GameId=? and game.CompanyID = ? and review.id=?;"
+    const queryString = "SELECT review.id,review.Comment,review.Rating,review.UserId,review.GameId,review.PostDate,game.id as'GameID',user.username FROM `review`  INNER JOIN game on GameId=game.id INNER JOIN user on UserId=user.id WHERE GameId=? and game.CompanyID = ? and review.id=?;"
     const checkQueryStringCompany = "SELECT id FROM company WHERE id=?;"
     const checkQueryStringGame = "SELECT id FROM game WHERE id=?;"
 
@@ -99,7 +101,8 @@ export const findOne = (reviewId: number, gameId: number, companyId: number, cal
                             rating: row.Rating,
                             postDate: row.PostDate,
                             user: {
-                                user_id: row.UserId
+                                user_id: row.UserId,
+                                username: row.username,
                             },
                             game: {
                                 id: row.GameId

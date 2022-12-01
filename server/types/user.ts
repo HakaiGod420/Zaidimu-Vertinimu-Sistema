@@ -1,9 +1,9 @@
 export interface BasicUser{
-    user_id: number
+    user_id: number,
+    username: string,
 }
 
 export interface User extends BasicUser{
-    nickname: string,
     password: string,
     email: string,
     isAdmin: boolean,

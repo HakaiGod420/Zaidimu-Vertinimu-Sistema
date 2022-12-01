@@ -101,7 +101,7 @@ function GameInfo({ companyId: CompanyId, gameId: GameId }: Props) {
                         <p className='text-[#00df9a] font-bold uppercase '>{data?.name}</p>
                         <p className=''>{data?.summary}</p>
                         <div className=''>
-                            {<h1 className='md:text-4xl sm:text-3xl text-2xl font-bold py-2 justify-center items-center'><span className='float-left'><AiFillStar /></span>{rate}/5</h1>}
+                            {<h1 className='md:text-4xl sm:text-3xl text-2xl font-bold py-2 justify-center items-center'><span className='float-left'>Overall Rating: </span> {rate}/5</h1>}
                         </div>
                     </div>
                 </div>
