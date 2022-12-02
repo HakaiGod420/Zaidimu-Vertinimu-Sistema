@@ -93,6 +93,7 @@ function GameInfo({ companyId: CompanyId, gameId: GameId }: Props) {
     }, [])
 
     return (
+        
         <div className='w-full bg-white py-16 px-4'>
             <div className='max-w-[1200px] mx-auto'>
                 <div className=' border-2 rounded-lg shadow-sm  shadow-[#1c9e75] border-[#00df9a] grid md:grid-cols-2'>

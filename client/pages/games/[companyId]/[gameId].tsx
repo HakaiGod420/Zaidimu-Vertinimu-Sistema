@@ -18,9 +18,6 @@ function Game() {
      }
     }, [router]);
     
-console.log(param1);
-console.log(param2);
-
     return (
         <div>
             <Navbar />

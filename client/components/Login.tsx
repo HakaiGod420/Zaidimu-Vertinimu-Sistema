@@ -1,11 +1,13 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import CompanyImage from '../public/gameLogos.jpg'
 import Image from 'next/image';
 import { Credentials } from '../types/credentials';
 import { Axios } from 'axios';
 import { User } from '../types/user';
 import { redirect } from 'react-router-dom';
+import { CheckJWTAndSession } from '../midlewear/checkSessionJwt';
 const axios: Axios = require('axios');
+const jwt = require("jsonwebtoken");
 
 
 export default function Login() {
@@ -14,6 +16,8 @@ export default function Login() {
     const [password, setPassword] = useState('');
     const [hidenErr, setErrShow] = useState(true);
     const [errorName, setErrorName] = useState('');
+
+
 
     const login = async () => {
         const insertedCrendiantials: Credentials = {
@@ -24,7 +28,8 @@ export default function Login() {
         axios.post(url + '/users/login', insertedCrendiantials).then(function (response) {
             const userData: User = response.data.user
             console.log(response.data.user)
-            localStorage.setItem('token', userData.token);
+            localStorage.setItem('token', JSON.stringify({token: userData.token}));
+            //localStorage.setItem('token', userData.token);
             setErrShow(true);
             window.location.replace("/")
         }).catch(function (error) {
