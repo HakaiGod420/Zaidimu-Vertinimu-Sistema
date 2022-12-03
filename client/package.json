@@ -17,6 +17,7 @@
     "react-modal": "^3.16.1",
     "react-router": "^6.4.3",
     "react-router-dom": "^6.4.3",
+    "react-simple-star-rating": "^5.1.7",
     "react-typed": "^1.2.0"
   },
   "devDependencies": {

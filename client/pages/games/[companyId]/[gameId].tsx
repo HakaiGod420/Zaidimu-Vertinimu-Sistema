@@ -12,7 +12,6 @@ function Game() {
    
     useEffect(() => {
      if (router && router.query) {
-      console.log(router.query);
       setParam1(router.query.companyId);
       setParam2(router.query.gameId)
      }

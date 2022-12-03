@@ -2,19 +2,21 @@ import React, { useEffect, useState } from 'react'
 import { Axios } from 'axios';
 import { Game } from '../types/game';
 import GameCard from './GameCard';
+import CommentWrite from './CommentWrite';
 const axios: Axios = require('axios');
 
-interface Props{
-    companyId:string | string[] | undefined
+interface Props {
+    companyId: string | string[] | undefined
 }
 
-function GamesList({companyId:CompanyID}:Props) {
+function GamesList({ companyId: CompanyID }: Props) {
     const url = "http://localhost:3001"
     const [data, setData] = useState<Game[]>([])
     const [error, setError] = useState<string | undefined>(undefined);
 
+
     useEffect(() => {
-        axios.get(url + '/companies/'+CompanyID+'/games').then(function (response) {
+        axios.get(url + '/companies/' + CompanyID + '/games').then(function (response) {
             console.log(response.data)
             const games: Game[] = response.data.games
             setData(games)

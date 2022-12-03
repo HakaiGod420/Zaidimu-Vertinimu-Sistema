@@ -17,3 +17,9 @@ export interface ReviewWithDetails extends Review{
     user:User,
     game:Game
 }
+
+export interface PostReview{
+    comment:string,
+    rating:number,
+    postDate:string
+}

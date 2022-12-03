@@ -37,7 +37,7 @@ export default function Navbar() {
 
     return (
 
-        <header className='sticky top-0 bg-[#000300]'>
+        <header className='sticky top-0 bg-[#000300] z-10'>
             <div className='flex justify-between items-center h-24 max-w-[1240px] mx-auto px-4 text-white'>
                 <Link href={"/"}>
                     <h1 className=' w-full text-3xl font-bold text-[#00df9a]'>GAMERATING.</h1>
@@ -53,7 +53,7 @@ export default function Navbar() {
                     <li className='p-4'>
 
                         {!tokenValid ?
-                            <Link href={'./login'}>
+                            <Link href={'/login'}>
                                 <button className='bg-white w-[150px] rounded-md font-medium py-2 my-[-20px] text-black'>Sign In</button>
                             </Link>
                             : <button onClick={signOff} className='bg-[#00df9a] w-[150px] rounded-md font-medium py-2 my-[-20px] text-black'>Sign Off</button>
@@ -61,7 +61,7 @@ export default function Navbar() {
                     </li>
                     <li className='p-4'>
                         {tokenValid && isAdmin ?
-                            <Link href={'./login'}>
+                            <Link href={'/login'}>
                                 <button className='bg-white w-[150px] rounded-md font-medium py-2 my-[-20px] text-black'>Admin CP</button>
                             </Link>
                             : null
@@ -92,7 +92,7 @@ export default function Navbar() {
                         }
 
                         {tokenValid && isAdmin ?
-                            <Link href={'./login'}>
+                            <Link href={'/login'}>
                                <li className='p-4 border-b border-gray-600'>Admin CP</li>
                             </Link>
                             : null

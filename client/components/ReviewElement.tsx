@@ -1,11 +1,7 @@
 import React from 'react'
 import moment from "moment"
 import { Review } from '../types/review'
-import {
-  AiFillStar
-} from 'react-icons/ai';
-
-import Modal from 'react-modal';
+import { Rating } from 'react-simple-star-rating'
 
 interface Props {
   review: Review
@@ -18,7 +14,10 @@ function ReviewElement({ review: Review }: Props) {
       <button
         className="p-8 border border-gray-200 rounded bg-white min-w-full min-h-full hover:bg-gray-50 hover:border-b-4 hover:border-[#08aa76] active:bg-gray-100 hover:bg-gradient-to-r from-[#F2E7D5]">
         <div className="flex justify-center items-center text-gray-500">
-          <h1 className=' bg-[#6D9886] rounded-md p-2 w-[80px] font-bold text-black text-[25px]'>{Review.rating}/5</h1>
+          <div className='inherint z-0'>
+            <Rating className='inherint' SVGclassName="inline-block" iconsCount={5} size={17} allowFraction={false} readonly={true} initialValue={Review.rating} />
+            <p>{Review.rating}/5</p>
+          </div>
         </div>
         <div className="text-center mt-4 min-h-[200px]">
           <p className=" text-500 text-sm mt-4 font-semibold">
