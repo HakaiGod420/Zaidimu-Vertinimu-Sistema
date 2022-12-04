@@ -61,7 +61,7 @@ export default function Navbar() {
                     </li>
                     <li className='p-4'>
                         {tokenValid && isAdmin ?
-                            <Link href={'/login'}>
+                            <Link href={'/admin'}>
                                 <button className='bg-white w-[150px] rounded-md font-medium py-2 my-[-20px] text-black'>Admin CP</button>
                             </Link>
                             : null
@@ -92,7 +92,7 @@ export default function Navbar() {
                         }
 
                         {tokenValid && isAdmin ?
-                            <Link href={'/login'}>
+                            <Link href={'/admin'}>
                                <li className='p-4 border-b border-gray-600'>Admin CP</li>
                             </Link>
                             : null

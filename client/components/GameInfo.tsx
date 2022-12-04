@@ -87,7 +87,7 @@ function GameInfo({ companyId: CompanyId, gameId: GameId }: Props) {
     const refreshGameReviews = async () => {
         await axios.get(url + '/companies' + '/' + CompanyId + '/' + 'games/' + GameId + '/reviews').then(function (response) {
             const reviews: Review[] = response.data.reviews
-            console.log(reviews)
+
             setDataReview(reviews)
             if (response.data.reviews) {
                 calculateRate(response.data.reviews)
