@@ -7,3 +7,9 @@ export interface BasicCompany {
     creationDate: Date,
     image: string
   }
+
+  export interface CreateCompany{
+    name: string,
+    creationDate: string,
+    image: string
+  }

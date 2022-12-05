@@ -14,7 +14,6 @@ export default function CompanyCard({company:CompanyProp}:Props) {
     return (
         <div>
             <Link href={"companies/"+CompanyProp.id.toString()}>
-
             <button
                 className="p-8 border border-gray-200 rounded bg-white w-64 hover:bg-gray-50 hover:border-b-4 hover:border-[#00df9a] active:bg-gray-100" >
                 <div className="flex justify-center items-center text-gray-500">

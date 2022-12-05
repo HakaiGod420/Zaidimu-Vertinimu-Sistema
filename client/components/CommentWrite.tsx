@@ -1,7 +1,7 @@
 import React, { Dispatch, SetStateAction, useState } from 'react'
 import { PostReview, Review } from '../types/review'
-import { Axios } from 'axios';
 import { Rating } from 'react-simple-star-rating'
+import { Axios } from 'axios';
 const axios: Axios = require('axios');
 const jwt = require("jsonwebtoken");
 import moment from "moment"
@@ -11,11 +11,10 @@ interface Props {
     companyId: string | string[] | undefined,
     visible: boolean,
     onClose: () => void,
-    setReviews: Dispatch<SetStateAction<Review[] | undefined>>
-    setNewRating: Dispatch<SetStateAction<number>>
+    refreshReviewsOfGame : () => Promise<void>
 }
 
-function CommentWrite({ visible, onClose, setReviews, gameId, companyId,setNewRating }: Props) {
+function CommentWrite({ visible, onClose, gameId, companyId,refreshReviewsOfGame }: Props) {
     const [ratingNumb, setRating] = useState(0)
     const url = "http://localhost:3001"
     const [review, setReview] = useState('')
@@ -56,44 +55,11 @@ function CommentWrite({ visible, onClose, setReviews, gameId, companyId,setNewRa
     }
 
 
-
-    const calculateRate = async (data: Review[]) => {
-        let sum = 0;
-        data?.forEach(element => {
-            sum += element.rating;
-        });
-        if (data != undefined) {
-            const newRate = sum / data?.length
-            setNewRating(newRate);
-        }
-
-        if (data?.length == 0) {
-            setNewRating(0)
-        }
-    }
-
-
-    const refreshGameReviews = async () => {
-        await axios.get(url + '/companies' + '/' + companyId + '/' + 'games/' + gameId + '/reviews').then(function (response) {
-            const reviews: Review[] = response.data.reviews
-            
-            setReviews(reviews)
-            if (response.data.reviews) {
-                calculateRate(response.data.reviews)
-            }
-        }).catch(function (error) {
-            console.log(error)
-        })
-    }
-
-
-
-
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         onClose();
-        refreshGameReviews();
-        postReview();
+        await postReview();
+        refreshReviewsOfGame()
         setRating(0);
         setReview('');
         //setReviews();

@@ -134,7 +134,7 @@ function GameInfo({ companyId: CompanyId, gameId: GameId }: Props) {
                 <ReviewList reviewList={dataReview} />
             </div>
             {writeCommentVisibility && (
-                <CommentWrite gameId={GameId} companyId={CompanyId} visible={writeCommentVisibility} onClose={handleOnClose} setReviews={setDataReview} setNewRating={setRate}/>
+                <CommentWrite gameId={GameId} companyId={CompanyId} visible={writeCommentVisibility} onClose={handleOnClose} refreshReviewsOfGame={()=>refreshGameReviews()}/>
             )}
         </div>
     )
