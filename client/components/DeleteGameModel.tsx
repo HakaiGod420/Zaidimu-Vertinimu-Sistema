@@ -4,22 +4,21 @@ import { Company } from '../types/company';
 const axios: Axios = require('axios');
 
 interface Props {
-    companyId: number | undefined
+    companyId : number | undefined
+    gameId: number | undefined
     visible: boolean,
     onClose: () => void,
-    refreshCompaniesS : () => Promise<void>
+    refreshGameAfterDelete : () => Promise<void>
 }
-function DeleteCompanyModel({ companyId, visible, onClose,refreshCompaniesS:refreshMainCompanies }: Props) {
+function DeleteGameModel({companyId,gameId, visible, onClose,refreshGameAfterDelete }: Props) {
     const url = "http://localhost:3001"
 
-    const deleteCompany = async () => {
+    const deleteGame = async () => {
         const token = JSON.parse(localStorage.getItem("token") || "false")
-
-        console.log(token.token)
 
         axios.defaults.headers.delete['Authorization'] = `Bearer ${token.token}`;
 
-        axios.delete(url + '/companies/'+companyId).then(function (response) {
+        axios.delete(url + '/companies/'+companyId+'/games/'+gameId).then(function (response) {
         }).catch(function (error) {
 
             if (error.response == undefined) {
@@ -41,15 +40,15 @@ function DeleteCompanyModel({ companyId, visible, onClose,refreshCompaniesS:refr
 
     const handleDelete = async (e: any) => {
         onClose()
-        await deleteCompany()
+        await deleteGame()
         //setCompanies(companies)
-        refreshMainCompanies()
+        refreshGameAfterDelete()
     }
     if (!visible) return null;
 
     return (
-        <div onClick={handeOnClose} id="container" className="fixed inset-0 bg-black bg-opacity-30 backdrop-blur-sm flex justify-center items-center">
-            <div className="relative w-full h-full max-w-md  md:h-auto flex items-center">
+        <div onClick={handeOnClose} id="container" className="fixed  inset-0 bg-black bg-opacity-30 backdrop-blur-sm flex justify-center">
+            <div className="relative w-full h-full max-w-md md:h-auto flex  items-center">
                 <div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
                     <button onClick={onClose} type="button" className="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-800 dark:hover:text-white" data-modal-toggle="popup-modal">
                         <svg aria-hidden="true" className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd"></path></svg>
@@ -68,4 +67,4 @@ function DeleteCompanyModel({ companyId, visible, onClose,refreshCompaniesS:refr
         </div>
     )
 }
-export default DeleteCompanyModel
+export default DeleteGameModel

@@ -8,12 +8,18 @@ import {
     AiOutlineEdit
 } from 'react-icons/ai';
 
+
+import {
+    BsArrowRightCircle
+} from 'react-icons/bs';
+
 import {
     MdDeleteOutline
 } from 'react-icons/md';
 import DeleteCompanyModel from './DeleteCompanyModel';
 import CreateCompanieModel from './CreateCompanieModel';
 import UpdateCompaniesModel from './UpdateCompaniesModel';
+import Link from 'next/link';
 
 function CompaniesControl() {
 
@@ -87,7 +93,7 @@ function CompaniesControl() {
             <div className='w-full bg-white py-16 px-4 flex justify-center'>
                 <div className='max-w-[1240px] mx-auto'>
 
-                    <div className=' grid grid-cols-2 justify-items-end align-middle'>
+                    <div className=' grid grid-cols-2 justify-items-end align-middle items-centers'>
                         <div className='text-center mb-3 text-green-500 font-bold  text-[30px]'>
                             <h1 className=''>COMPANIES LIST</h1>
                         </div>
@@ -117,6 +123,9 @@ function CompaniesControl() {
                                     <th scope="col" className="py-3 px-6">
                                         <span className="sr-only">Delete</span>
                                     </th>
+                                    <th scope="col" className="py-3 px-6">
+                                        <span className="sr-only">Games</span>
+                                    </th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -136,6 +145,9 @@ function CompaniesControl() {
                                         </td>
                                         <td className="py-4 px-6 text-right">
                                             <a  className="font-medium text-blue-600 dark:text-blue-500 hover:underline"><MdDeleteOutline onClick={()=>handleDeleteModel(oneCompany.id)} className='w-5 h-5 cursor-pointer' /></a>
+                                        </td>
+                                        <td className="py-4 px-6 text-right">
+                                            <p  className="font-medium text-blue-600 dark:text-blue-500 hover:underline"><Link href={"/gamesedit/"+oneCompany.id}><BsArrowRightCircle  className='w-5 h-5 cursor-pointer' /></Link></p>
                                         </td>
                                     </tr>
                                 ))}

@@ -15,3 +15,11 @@ export interface Game extends BasicGame{
 export interface GameWithDetails extends Game{
     company:Company
 }
+
+export interface CreateGame{
+    name:string,
+    summary:string,
+    releaseDate:string,
+    startingPrice:number,
+    thumbnail:string
+}
