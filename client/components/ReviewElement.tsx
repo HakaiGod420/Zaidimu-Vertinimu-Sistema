@@ -1,17 +1,27 @@
-import React from 'react'
+import React, { useState } from 'react'
 import moment from "moment"
 import { Review } from '../types/review'
 import { Rating } from 'react-simple-star-rating'
+import MoreReviewInfo from './MoreReviewInfo'
 
 interface Props {
   review: Review
+  companyId : string | string[] | undefined
 }
 
-function ReviewElement({ review: Review }: Props) {
+function ReviewElement({ review: Review, companyId }: Props) {
   const NewDate = moment(Review.postDate).format('YYYY-MM-DD')
+  const [moreInfoVisability, setMoreInfoVisability] = useState<boolean>(false)
+  const handleMoreInfoModel = () => {
+    setMoreInfoVisability(true);
+  }
+  const handleMoreInfoClose = () => {
+    setMoreInfoVisability(false)
+  }
+
   return (
     <div>
-      <button
+      <button onClick={handleMoreInfoModel}
         className="p-8 border border-gray-200 rounded bg-white min-w-full min-h-full hover:bg-gray-50 hover:border-b-4 hover:border-[#08aa76] active:bg-gray-100 hover:bg-gradient-to-r from-[#F2E7D5]">
         <div className="flex justify-center items-center text-gray-500">
           <div className='inherint z-0'>
@@ -33,7 +43,7 @@ function ReviewElement({ review: Review }: Props) {
         </div>
 
       </button>
-
+      {moreInfoVisability && (<MoreReviewInfo review={Review} visible={moreInfoVisability} onClose={handleMoreInfoClose} />)}
     </div>
 
   )

@@ -9,6 +9,7 @@ import {
 import ReviewList from './ReviewList';
 import { CheckJWTAndSession } from '../midlewear/checkSessionJwt';
 import CommentWrite from './CommentWrite';
+import MoreReviewInfo from './MoreReviewInfo';
 const axios: Axios = require('axios');
 
 interface Props {
@@ -27,6 +28,7 @@ function GameInfo({ companyId: CompanyId, gameId: GameId }: Props) {
     const [tokenValid, setTokenValidation] = useState<boolean | undefined>(false);
     const [writeCommentVisibility, setWriteCommentVisibility] = useState<boolean>(false)
     const handleOnClose = () => setWriteCommentVisibility(false)
+
 
 
     useEffect(() => {
@@ -112,6 +114,9 @@ function GameInfo({ companyId: CompanyId, gameId: GameId }: Props) {
         refreshGameReviews()
     }, [])
 
+
+
+    
     return (
 
         <div className='w-full bg-white py-16 px-4'>
@@ -136,6 +141,7 @@ function GameInfo({ companyId: CompanyId, gameId: GameId }: Props) {
             {writeCommentVisibility && (
                 <CommentWrite gameId={GameId} companyId={CompanyId} visible={writeCommentVisibility} onClose={handleOnClose} refreshReviewsOfGame={()=>refreshGameReviews()}/>
             )}
+            
         </div>
     )
 }
