@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Rating } from 'react-simple-star-rating';
 import { Review } from '../types/review'
 import moment from "moment"
@@ -9,18 +9,24 @@ import {
 import {
     AiOutlineEdit
 } from 'react-icons/ai';
+import DeleteReviewModel from './DeleteReviewModel';
+import EditReviewModel from './EditReviewModel';
 interface Props {
     review: Review,
     visible: boolean,
     onClose: () => void,
+    refreshReviewList: () => Promise<void>
+    companyId: string | string[] | undefined
 }
 
 
-function MoreReviewInfo({ review, visible, onClose }: Props) {
+function MoreReviewInfo({ review, visible, onClose, refreshReviewList, companyId }: Props) {
     const handeOnClose = (e: any) => {
         if (e.target.id === "container") onClose();
     }
     const NewDate = moment(review.postDate).format('YYYY-MM-DD')
+    const [deleteModeVisibility, setDeleteModeVisibility] = useState<boolean>(false)
+    const [updateModeVisibility, setUpdateModeVisibility] = useState<boolean>(false)
 
     return (
         <div onClick={handeOnClose} id="container" className=" inherint z-20 fixed inset-0 bg-black bg-opacity-30 backdrop-blur-sm flex justify-center items-center">
@@ -44,11 +50,13 @@ function MoreReviewInfo({ review, visible, onClose }: Props) {
                         <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">{review.comment}</h3>
                     </div>
                     <div className='border-t-2 border-gray-400 grid grid-cols-2 gap-1 text-gray-500 dark:text-gray-400'>
-                        <div className='text-blue-600 text-[25px] flex flex-wrap items-center content-center justify-center'><AiOutlineEdit /> Edit</div>
-                        <div className='text-blue-600 text-[25px] flex flex-wrap items-center content-center justify-center'><MdDeleteOutline/> Delete</div>
+                        <div className='text-blue-600 text-[25px] flex flex-wrap items-center content-center justify-center'><AiOutlineEdit className='cursor-pointer w-10 h-10' onClick={() => {setUpdateModeVisibility(true)}} /></div>
+                        <div className='text-blue-600 text-[25px] flex flex-wrap items-center content-center justify-center'><MdDeleteOutline className='cursor-pointer w-10 h-10' onClick={() => {setDeleteModeVisibility(true)}} /></div>
                     </div>
                 </div>
             </div>
+            {deleteModeVisibility && (<DeleteReviewModel gameId={review.game.id} reviewId={review.id} companyId={companyId} visible={deleteModeVisibility} onClose={() => {setDeleteModeVisibility(false)}} refreshReviewList={refreshReviewList} />)}
+            {updateModeVisibility && (<EditReviewModel gameId={review.game.id} reviewId={review.id} companyId={companyId} visible={updateModeVisibility} onClose={() => {setUpdateModeVisibility(false)}} refreshReviewList={refreshReviewList} reviewMain={review} />)}
         </div>
     )
 }

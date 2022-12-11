@@ -7,9 +7,10 @@ import MoreReviewInfo from './MoreReviewInfo'
 interface Props {
   review: Review
   companyId : string | string[] | undefined
+  refreshReviewList : () => Promise<void>
 }
 
-function ReviewElement({ review: Review, companyId }: Props) {
+function ReviewElement({ review: Review, companyId,refreshReviewList }: Props) {
   const NewDate = moment(Review.postDate).format('YYYY-MM-DD')
   const [moreInfoVisability, setMoreInfoVisability] = useState<boolean>(false)
   const handleMoreInfoModel = () => {
@@ -43,7 +44,7 @@ function ReviewElement({ review: Review, companyId }: Props) {
         </div>
 
       </button>
-      {moreInfoVisability && (<MoreReviewInfo review={Review} visible={moreInfoVisability} onClose={handleMoreInfoClose} />)}
+      {moreInfoVisability && (<MoreReviewInfo companyId={companyId} refreshReviewList={refreshReviewList} review={Review} visible={moreInfoVisability} onClose={handleMoreInfoClose} />)}
     </div>
 
   )

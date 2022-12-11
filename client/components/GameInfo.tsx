@@ -136,7 +136,7 @@ function GameInfo({ companyId: CompanyId, gameId: GameId }: Props) {
                         <button onClick={() => setWriteCommentVisibility(!writeCommentVisibility)} className=' bg-[#00df9a] h-full rounded-md font-medium text-black '>Write Review</button>
                     </div>:null}
                 </div>
-                <ReviewList reviewList={dataReview} />
+                <ReviewList refreshReviewList={refreshGameReviews} companyId={CompanyId} reviewList={dataReview} />
             </div>
             {writeCommentVisibility && (
                 <CommentWrite gameId={GameId} companyId={CompanyId} visible={writeCommentVisibility} onClose={handleOnClose} refreshReviewsOfGame={()=>refreshGameReviews()}/>
