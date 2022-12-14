@@ -17,6 +17,8 @@ function ReviewList({ reviewList: ReviewList, companyId,refreshReviewList }: Pro
             {ReviewList?.map(oneReview => (
                 <ReviewElement refreshReviewList={refreshReviewList} companyId={companyId} review={oneReview} key={oneReview.id} />
             ))}
+
+            {ReviewList?.length == 0 ? <p className='text-[25px] text-center col-span-2 text-[#1c9e75] md:col-span-3'>Was not found</p>:null}
             
             </div>
         </div>

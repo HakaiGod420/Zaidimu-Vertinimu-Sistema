@@ -5,6 +5,8 @@ import { Axios } from 'axios';
 const axios: Axios = require('axios');
 const jwt = require("jsonwebtoken");
 import moment from "moment"
+import { toast } from 'react-hot-toast';
+import { URL_API } from '../exports';
 
 interface Props {
     gameId:number
@@ -12,13 +14,14 @@ interface Props {
     reviewId:number,
     visible:boolean,
     onClose: () => void,
+    onClose2: () => void,
     refreshReviewList : () => Promise<void>
     reviewMain: Review
 }
 
-function EditReviewModel({gameId,companyId,reviewId,visible,onClose,refreshReviewList,reviewMain }: Props) {
+function EditReviewModel({gameId,companyId,reviewId,visible,onClose,refreshReviewList,reviewMain,onClose2 }: Props) {
 
-    const url = "http://localhost:3001"
+    const url = URL_API
     const [ratingNumb, setRating] = useState(reviewMain.rating)
     const [review, setReview] = useState(reviewMain.comment)
     const handleRating = (rate: number) => {
@@ -30,7 +33,7 @@ function EditReviewModel({gameId,companyId,reviewId,visible,onClose,refreshRevie
     if (!visible) return null;
 
     const updateReview = async () => {
-
+        const loading = toast.loading('Updating review...')
         const postReview: PostReview = {
             comment:review,
             rating:ratingNumb,
@@ -40,19 +43,45 @@ function EditReviewModel({gameId,companyId,reviewId,visible,onClose,refreshRevie
 
         axios.defaults.headers.put['Authorization'] = `Bearer ${token.token}`;
 
-        axios.put(url + '/companies/'+companyId+'/games/'+gameId+'/reviews/'+reviewId, postReview).then(function (response) {
-            console.log(response.data)
+        await axios.put(url + '/companies/'+companyId+'/games/'+gameId+'/reviews/'+reviewId, postReview).then(function (response) {
+            toast.success('Review was updated!', {
+                id: loading,
+            })
         }).catch(function (error) {
 
             if (error.response == undefined) {
+                toast.error('Error occurred', {
+                    id: loading,
+                })
                 return;
             }
             // handle error
             if (error.response.status == 404) {
+                toast.error('Error occurred', {
+                    id: loading,
+                })
                 return
             }
             if (error.response.status == 400) {
+                toast.error('Error occurred', {
+                    id: loading,
+                })
                 return
+            }
+            if (error.response.status == 401) {
+                toast.error('Error occurred',{
+                    id:loading
+                })
+            }
+            if (error.response.status == 403) {
+                toast.error('Error occurred',{
+                    id:loading
+                })
+            }
+            if (error.response.status == 500) {
+                toast.error('Error occurred',{
+                    id:loading
+                })
             }
         })
     }
@@ -60,11 +89,13 @@ function EditReviewModel({gameId,companyId,reviewId,visible,onClose,refreshRevie
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        onClose();
         await updateReview();
-        refreshReviewList()
+        await refreshReviewList()
+        onClose();
+        onClose2();
         setRating(0);
         setReview('');
+
         //setReviews();
     }
 

@@ -50,7 +50,7 @@ reviewRouter.get("/", (req, res) => __awaiter(void 0, void 0, void 0, function* 
     }
     const companyId = Number(req.params.companyId);
     const gameId = Number(req.params.gameId);
-    reviewModel.findAll(gameId, companyId, (err, orders) => {
+    reviewModel.findAll(gameId, companyId, (err, reviews) => {
         if (err) {
             if (err.message == 'Not Found') {
                 return res.status(404).json({ "message": err.message });
@@ -59,7 +59,7 @@ reviewRouter.get("/", (req, res) => __awaiter(void 0, void 0, void 0, function* 
                 return res.status(500).json({ "errorMessage": err.message });
             }
         }
-        res.status(200).json({ "data": orders });
+        res.status(200).json({ reviews });
     });
 }));
 reviewRouter.get("/:id", (req, res) => __awaiter(void 0, void 0, void 0, function* () {

@@ -20,6 +20,7 @@ import DeleteCompanyModel from './DeleteCompanyModel';
 import CreateCompanieModel from './CreateCompanieModel';
 import UpdateCompaniesModel from './UpdateCompaniesModel';
 import Link from 'next/link';
+import { URL_API } from '../exports';
 
 function CompaniesControl() {
 
@@ -30,7 +31,7 @@ function CompaniesControl() {
         id:-1
     }
 
-    const url = "http://localhost:3001"
+    const url = URL_API
     const [data, setData] = useState<Company[]>([])
     const [error, setError] = useState('');
     const [selectedId, setSelectedId] = useState<number>();

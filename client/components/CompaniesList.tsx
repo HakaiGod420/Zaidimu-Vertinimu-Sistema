@@ -3,12 +3,13 @@ import Image from 'next/image';
 import CompanyCard from './CompanyCard';
 import { Company } from '../types/company';
 import { Axios } from 'axios';
+import { URL_API } from '../exports';
 const axios: Axios = require('axios');
 
 
 export default function CompaniesList() {
 
-    const url = "http://localhost:3001"
+    const url = URL_API
     const [data, setData] = useState<Company[]>([])
     const [error, setError] = useState('');
 
@@ -28,10 +29,10 @@ export default function CompaniesList() {
     }, [])
 
     return (
-        <div className='w-full bg-white py-16 px-4'>
-            <div className='max-w-[1240px] flext items-center justify-center mx-auto pl-9'>
+        <div className='w-full bg-white py-16'>
+            <div className='max-w-[1240px] flext items-center justify-center mx-auto'>
 
-                <div className='grid lg:grid-cols-3 gap-x-4 gap-y-3 pl-4 items-center justify-center   md:grid-cols-2 sm:grid-cols-1'>
+                <div className='grid lg:grid-cols-3 gap-x-4 gap-y-3 items-center justify-center content-between md:grid-cols-2 sm:grid-cols-1'>
                     {data.map(oneCompany => (
                         <CompanyCard company={oneCompany} key={oneCompany.id} />
                     ))}

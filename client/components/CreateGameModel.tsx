@@ -3,16 +3,18 @@ import { Axios } from 'axios';
 import { Company, CreateCompany } from '../types/company';
 import { CreateGame } from '../types/game';
 const axios: Axios = require('axios');
+import { toast } from 'react-hot-toast';
+import { URL_API } from '../exports';
 
 interface Props {
-    companyName:string|undefined
-    companyId:number | undefined
+    companyName: string | undefined
+    companyId: number | undefined
     visible: boolean,
     onClose: () => void,
-    refreshGamesAfterCreate : () => Promise<void>
+    refreshGamesAfterCreate: () => Promise<void>
 }
-function CreateGameModel({companyName,companyId,visible, onClose,refreshGamesAfterCreate }: Props) {
-    const url = "http://localhost:3001"
+function CreateGameModel({ companyName, companyId, visible, onClose, refreshGamesAfterCreate }: Props) {
+    const url = URL_API
 
     const [newName, SetName] = useState('')
     const [newSummary, setSummary] = useState('')
@@ -23,30 +25,58 @@ function CreateGameModel({companyName,companyId,visible, onClose,refreshGamesAft
 
 
     const postGame = async () => {
+        const loading = toast.loading('Creating new game...')
         const newGame: CreateGame = {
-            name:newName,
-            summary:newSummary,
-            releaseDate:newReleaseDate,
-            startingPrice:newStartingPrice,
-            thumbnail:imageLink
+            name: newName,
+            summary: newSummary,
+            releaseDate: newReleaseDate,
+            startingPrice: newStartingPrice,
+            thumbnail: imageLink
         }
 
         const token = JSON.parse(localStorage.getItem("token") || "false")
 
         axios.defaults.headers.post['Authorization'] = `Bearer ${token.token}`;
 
-        axios.post(url + '/companies/'+companyId+'/games',newGame).then(function (response) {
+        await axios.post(url + '/companies/' + companyId + '/games', newGame).then(function (response) {
+            toast.success('Game was created!', {
+                id: loading,
+            })
         }).catch(function (error) {
 
             if (error.response == undefined) {
+                toast.error('Error occurred', {
+                    id: loading,
+                })
                 return;
             }
             // handle error
             if (error.response.status == 404) {
+                toast.error('Error Error occurred', {
+                    id: loading,
+                })
                 return
             }
             if (error.response.status == 400) {
+                toast.error('Error occurred', {
+                    id: loading,
+                })
                 return
+            }
+            if (error.response.status == 401) {
+                toast.error('Error occurred',{
+                    id:loading
+                })
+            }
+            if (error.response.status == 403) {
+                toast.error('Error occurred',{
+                    id:loading
+                })
+            }
+            if (error.response.status == 500) {
+                toast.error('Error occurred',{
+                    id:loading
+                })
             }
         })
     }
@@ -82,7 +112,7 @@ function CreateGameModel({companyName,companyId,visible, onClose,refreshGamesAft
                     <div className="grid col-span-2 gap-6 mt-4">
                         <div>
                             <label className="text-gray-700 dark:text-gray-200" htmlFor="reviewText">Release Date</label>
-                            <input  type='date' onChange={(e) => SetReleaseDate(e.target.value)} id="date" className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40 dark:focus:border-blue-300 focus:outline-none focus:ring" />
+                            <input type='date' onChange={(e) => SetReleaseDate(e.target.value)} id="date" className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40 dark:focus:border-blue-300 focus:outline-none focus:ring" />
                         </div>
                     </div>
                     <div className="grid col-span-2 gap-6 mt-4">
@@ -98,7 +128,7 @@ function CreateGameModel({companyName,companyId,visible, onClose,refreshGamesAft
                         </div>
                     </div>
                     <div className="flex justify-start mt-6">
-                        <button  className=" disabled:bg-slate-400 px-8 py-2.5 leading-5 text-white transition-colors duration-300 transform bg-gray-700 rounded-md hover:bg-gray-600 focus:outline-none focus:bg-gray-600">Submit</button>
+                        <button className=" disabled:bg-slate-400 px-8 py-2.5 leading-5 text-white transition-colors duration-300 transform bg-gray-700 rounded-md hover:bg-gray-600 focus:outline-none focus:bg-gray-600">Submit</button>
                     </div>
                 </form>
             </section>

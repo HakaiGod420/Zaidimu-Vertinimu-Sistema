@@ -13,7 +13,7 @@ const create = (user, callback) => {
             return;
         }
         else {
-            db_1.db.query(queryString, [user.nickname, user.password, user.email], (err, result) => {
+            db_1.db.query(queryString, [user.username, user.password, user.email], (err, result) => {
                 console.log(result);
                 if (err) {
                     callback(err);
@@ -44,8 +44,8 @@ const findOne = (email, callback) => {
             checkRole = true;
         }
         const user = {
+            username: row.username,
             user_id: row.id,
-            nickname: row.username,
             password: row.password,
             email: row.email,
             isAdmin: checkRole,

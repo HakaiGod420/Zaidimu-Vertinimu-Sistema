@@ -43,11 +43,11 @@ exports.companyRouter = companyRouter;
 const auth = require("../middleware/auth");
 const authForAdmin = require("../middleware/authForAdmin");
 companyRouter.get("/", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    companyModel.findAll((err, orders) => {
+    companyModel.findAll((err, companies) => {
         if (err) {
             return res.status(500).json({ "errorMessage": err.message });
         }
-        res.status(200).json({ "data": orders });
+        res.status(200).json({ companies });
     });
 }));
 companyRouter.post("/", authForAdmin, (req, res) => __awaiter(void 0, void 0, void 0, function* () {

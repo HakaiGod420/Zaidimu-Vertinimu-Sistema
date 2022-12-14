@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
-import Typed from 'react-typed'
+import { TypeAnimation } from 'react-type-animation';
 import { CheckJWTAndSession } from '../midlewear/checkSessionJwt';
 
 export default function Hero() {
@@ -21,12 +21,17 @@ export default function Hero() {
         <h1 className='md:text-7xl sm:text-6xl text-4xl font-bold md:py-6'>RATE AND REVIEW YOUR FAVORITE GAME</h1>
         <div className='flex justify-center items-center'>
           <p className='md:text-4xl sm:text-3xl text-xl font-bold py-4'>Rate, read comments of  </p>
-          <Typed className='md:text-4xl sm:text-3xl text-xl font-bold pl-2 text-gray-500 md:pl-4' strings={['Fallout 4', 'Devil May Cry', 'Grand Theft Auto 5']} typeSpeed={120} backSpeed={140} loop />
+          <TypeAnimation className='md:text-4xl sm:text-3xl text-xl font-bold pl-2 text-gray-500 md:pl-4' sequence={[
+            'Fallout 4', 2000, 'Devil May Cry', 2000, 'Grand Theft Auto 5',2000,
+            () => {
+               // Place optional callbacks anywhere in the array
+            }
+          ]} repeat={Infinity} speed={10} deletionSpeed={10} />
         </div>
-        {!tokenValid?
+        {!tokenValid ?
           <Link href={'./login'}>
             <button className='bg-[#00df9a] w-[200px] rounded-md font-medium my-6 mx-auto py-3 text-black'>Sign In</button>
-          </Link>:null
+          </Link> : null
         }
       </div>
     </div>

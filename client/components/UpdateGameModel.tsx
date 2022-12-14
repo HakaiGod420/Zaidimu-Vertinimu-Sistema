@@ -4,6 +4,8 @@ import { Company, CreateCompany } from '../types/company';
 import { CreateGame, Game } from '../types/game';
 const axios: Axios = require('axios');
 import moment from 'moment';
+import { toast } from 'react-hot-toast';
+import { URL_API } from '../exports';
 
 interface Props {
     companyName:string|undefined
@@ -14,7 +16,7 @@ interface Props {
     refreshGamesAfterCreate : () => Promise<void>
 }
 function UpdateGameModel({companyName,companyId,visible, onClose,refreshGamesAfterCreate,gameData }: Props) {
-    const url = "http://localhost:3001"
+    const url = URL_API
 
     const [newName, SetName] = useState(gameData.name)
     const [newSummary, setSummary] = useState(gameData.summary)
@@ -24,6 +26,7 @@ function UpdateGameModel({companyName,companyId,visible, onClose,refreshGamesAft
 
 
     const updateGame = async () => {
+        const loading = toast.loading('Updating game...')
         const newGame: CreateGame = {
             name:newName,
             summary:newSummary,
@@ -36,18 +39,45 @@ function UpdateGameModel({companyName,companyId,visible, onClose,refreshGamesAft
 
         axios.defaults.headers.put['Authorization'] = `Bearer ${token.token}`;
 
-        axios.put(url + '/companies/'+companyId+'/games/'+gameData.id,newGame).then(function (response) {
+        await axios.put(url + '/companies/'+companyId+'/games/'+gameData.id,newGame).then(function (response) {
+            toast.success('Game was updated!', {
+                id: loading,
+            })
         }).catch(function (error) {
 
             if (error.response == undefined) {
+                toast.error('Error occurred', {
+                    id: loading,
+                })
                 return;
             }
             // handle error
             if (error.response.status == 404) {
+                toast.error('Error occurred', {
+                    id: loading,
+                })
                 return
             }
             if (error.response.status == 400) {
+                toast.error('Error occurred', {
+                    id: loading,
+                })
                 return
+            }
+            if (error.response.status == 401) {
+                toast.error('Error occurred',{
+                    id:loading
+                })
+            }
+            if (error.response.status == 403) {
+                toast.error('Error occurred',{
+                    id:loading
+                })
+            }
+            if (error.response.status == 500) {
+                toast.error('Error occurred',{
+                    id:loading
+                })
             }
         })
     }

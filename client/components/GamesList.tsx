@@ -3,6 +3,7 @@ import { Axios } from 'axios';
 import { Game } from '../types/game';
 import GameCard from './GameCard';
 import CommentWrite from './CommentWrite';
+import { URL_API } from '../exports';
 const axios: Axios = require('axios');
 
 interface Props {
@@ -10,7 +11,7 @@ interface Props {
 }
 
 function GamesList({ companyId: CompanyID }: Props) {
-    const url = "http://localhost:3001"
+    const url = URL_API
     const [data, setData] = useState<Game[]>([])
     const [error, setError] = useState<string | undefined>(undefined);
 
@@ -39,9 +40,9 @@ function GamesList({ companyId: CompanyID }: Props) {
     }, [])
 
     return (
-        <div className='w-full bg-white py-16 px-4'>
+        <div className='w-full bg-white py-16'>
             <div className='max-w-[1240px] flext items-center justify-center mx-auto'>
-                <div className='grid lg:grid-cols-3 gap-x-1 gap-y-1 pl-4 items-center justify-center   md:grid-cols-2 sm:grid-cols-1'>
+                <div className='grid lg:grid-cols-3 gap-x-1 gap-y-1 p-2 items-center justify-center   md:grid-cols-2 sm:grid-cols-1'>
                     {!error && data.map(oneGame => (
                         <GameCard game={oneGame} key={oneGame.id} />
                     ))}

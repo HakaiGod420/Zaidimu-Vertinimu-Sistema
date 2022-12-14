@@ -27,7 +27,7 @@ exports.update = exports.deleteOne = exports.create = exports.findOne = exports.
 const db_1 = require("../db");
 const dbCheck = __importStar(require("../middleware/dbChecks"));
 const findAll = (gameID, companyId, callback) => {
-    const queryString = "SELECT review.id,review.Comment,review.Rating,review.UserId,review.GameId,review.PostDate,game.id as'GameID' FROM `review` INNER JOIN game on GameId=game.id WHERE GameId=? and game.CompanyID = ?;";
+    const queryString = "SELECT review.id,review.Comment,review.Rating,review.UserId,review.GameId,review.PostDate,game.id as'GameID',user.username FROM `review`  INNER JOIN game on GameId=game.id INNER JOIN user on UserId=user.id WHERE GameId=? and game.CompanyID = ?;";
     const checkQueryStringCompany = "SELECT id FROM company WHERE id=?;";
     const checkQueryStringGame = "SELECT id FROM game WHERE id=?;";
     db_1.db.query(checkQueryStringCompany, companyId, (err, result) => {
@@ -62,7 +62,8 @@ const findAll = (gameID, companyId, callback) => {
                                     id: row.GameId
                                 },
                                 user: {
-                                    user_id: row.UserId
+                                    user_id: row.UserId,
+                                    username: row.username,
                                 }
                             };
                             reviews.push(game);
@@ -76,7 +77,7 @@ const findAll = (gameID, companyId, callback) => {
 };
 exports.findAll = findAll;
 const findOne = (reviewId, gameId, companyId, callback) => {
-    const queryString = "SELECT review.id as 'reviewID',review.Comment,review.Rating,review.PostDate,review.UserId,game.id as 'GameId' FROM `review` INNER JOIN game on GameId=game.id WHERE review.GameId=? and game.CompanyID = ? and review.id=?;";
+    const queryString = "SELECT review.id,review.Comment,review.Rating,review.UserId,review.GameId,review.PostDate,game.id as'GameID',user.username FROM `review`  INNER JOIN game on GameId=game.id INNER JOIN user on UserId=user.id WHERE GameId=? and game.CompanyID = ? and review.id=?;";
     const checkQueryStringCompany = "SELECT id FROM company WHERE id=?;";
     const checkQueryStringGame = "SELECT id FROM game WHERE id=?;";
     db_1.db.query(checkQueryStringCompany, companyId, (err, result) => {
@@ -111,7 +112,8 @@ const findOne = (reviewId, gameId, companyId, callback) => {
                             rating: row.Rating,
                             postDate: row.PostDate,
                             user: {
-                                user_id: row.UserId
+                                user_id: row.UserId,
+                                username: row.username,
                             },
                             game: {
                                 id: row.GameId

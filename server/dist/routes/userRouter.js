@@ -44,7 +44,7 @@ const bcrypt = require('bcrypt');
 var jwt = require('jsonwebtoken');
 userRouter.post("/register", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const newUser = req.body;
-    if (newUser.nickname == undefined || newUser.password == undefined || newUser.email == undefined) {
+    if (newUser.username == undefined || newUser.password == undefined || newUser.email == undefined) {
         return res.status(400).json({ "message": 'Bad Request' });
     }
     //Check if exist user

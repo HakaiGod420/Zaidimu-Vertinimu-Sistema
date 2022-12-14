@@ -1,6 +1,8 @@
 import React from 'react'
 import { Axios } from 'axios';
 const axios: Axios = require('axios');
+import { toast } from 'react-hot-toast';
+import { URL_API } from '../exports';
 interface Props{
     gameId:number
     companyId:string|string[]|undefined,
@@ -8,27 +10,56 @@ interface Props{
     visible:boolean,
     onClose: () => void,
     refreshReviewList : () => Promise<void>
+    onClose2: () => void,
 
 }
-function DeleteReviewModel({gameId,companyId,reviewId,visible,onClose,refreshReviewList}:Props) {
-    const url = "http://localhost:3001"
+function DeleteReviewModel({gameId,companyId,reviewId,visible,onClose,refreshReviewList,onClose2}:Props) {
+    const url = URL_API
     const deleteReview = async () => {
+        const loading = toast.loading('Deleting game...')
         const token = JSON.parse(localStorage.getItem("token") || "false")
 
         axios.defaults.headers.delete['Authorization'] = `Bearer ${token.token}`;
 
-        axios.delete(url + '/companies/'+companyId+'/games/'+gameId+'/reviews/'+reviewId).then(function (response) {
+        await axios.delete(url + '/companies/'+companyId+'/games/'+gameId+'/reviews/'+reviewId).then(function (response) {
+            toast.success('Review was deleted!', {
+                id: loading,
+            })
         }).catch(function (error) {
 
             if (error.response == undefined) {
+                toast.error('Error occurred', {
+                    id: loading,
+                })
                 return;
             }
             // handle error
             if (error.response.status == 404) {
+                toast.error('Error occurred', {
+                    id: loading,
+                })
                 return
             }
             if (error.response.status == 400) {
+                toast.error('Error occurred', {
+                    id: loading,
+                })
                 return
+            }
+            if (error.response.status == 401) {
+                toast.error('Error occurred',{
+                    id:loading
+                })
+            }
+            if (error.response.status == 403) {
+                toast.error('Error occurred',{
+                    id:loading
+                })
+            }
+            if (error.response.status == 500) {
+                toast.error('Error occurred',{
+                    id:loading
+                })
             }
         })
     }
@@ -38,10 +69,11 @@ function DeleteReviewModel({gameId,companyId,reviewId,visible,onClose,refreshRev
     }
 
     const handleDelete = async (e: any) => {
-        onClose()
         await deleteReview()
         //setCompanies(companies)
         await refreshReviewList()
+        onClose()
+        onClose2();
     }
     if (!visible) return null;
 

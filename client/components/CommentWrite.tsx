@@ -5,6 +5,8 @@ import { Axios } from 'axios';
 const axios: Axios = require('axios');
 const jwt = require("jsonwebtoken");
 import moment from "moment"
+import { toast } from 'react-hot-toast';
+import { URL_API } from '../exports';
 
 interface Props {
     gameId: string | string[] | undefined,
@@ -16,7 +18,7 @@ interface Props {
 
 function CommentWrite({ visible, onClose, gameId, companyId,refreshReviewsOfGame }: Props) {
     const [ratingNumb, setRating] = useState(0)
-    const url = "http://localhost:3001"
+    const url = URL_API
     const [review, setReview] = useState('')
     const handleRating = (rate: number) => {
         setRating(rate)
@@ -28,6 +30,7 @@ function CommentWrite({ visible, onClose, gameId, companyId,refreshReviewsOfGame
 
     const postReview = async () => {
 
+        const loading = toast.loading('Creating new review...')
         const postReview: PostReview = {
             comment:review,
             rating:ratingNumb,
@@ -37,31 +40,60 @@ function CommentWrite({ visible, onClose, gameId, companyId,refreshReviewsOfGame
 
         axios.defaults.headers.post['Authorization'] = `Bearer ${token.token}`;
 
-        axios.post(url + '/companies/'+companyId+'/games/'+gameId+'/reviews', postReview).then(function (response) {
-            console.log(response.data)
+        await axios.post(url + '/companies/'+companyId+'/games/'+gameId+'/reviews', postReview).then(function (response) {
+            
+        toast.success('Review was created!', {
+            id: loading,
+        })
         }).catch(function (error) {
 
             if (error.response == undefined) {
-                return;
+                toast.error('Error occurred',{
+                    id:loading
+                })
             }
             // handle error
             if (error.response.status == 404) {
-                return
+                toast.error('Error occurred',{
+                    id:loading
+                })
             }
             if (error.response.status == 400) {
-                return
+                toast.error('Error occurred',{
+                    id:loading
+                })
+            }
+
+            if (error.response.status == 401) {
+                toast.error('Error occurred',{
+                    id:loading
+                })
+            }
+            if (error.response.status == 403) {
+                toast.error('Error occurred',{
+                    id:loading
+                })
+            }
+            if (error.response.status == 500) {
+                toast.error('Error occurred',{
+                    id:loading
+                })
             }
         })
+
+        await refreshReviewsOfGame()
     }
 
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        onClose();
+
         await postReview();
-        refreshReviewsOfGame()
+        
+        onClose();
         setRating(0);
         setReview('');
+        
         //setReviews();
         
     }

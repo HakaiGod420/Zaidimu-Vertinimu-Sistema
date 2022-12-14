@@ -10,6 +10,9 @@ import ReviewList from './ReviewList';
 import { CheckJWTAndSession } from '../midlewear/checkSessionJwt';
 import CommentWrite from './CommentWrite';
 import MoreReviewInfo from './MoreReviewInfo';
+import toast, { Toaster } from 'react-hot-toast';
+import { URL_API } from '../exports';
+import { Rating } from 'react-simple-star-rating';
 const axios: Axios = require('axios');
 
 interface Props {
@@ -19,7 +22,7 @@ interface Props {
 
 function GameInfo({ companyId: CompanyId, gameId: GameId }: Props) {
 
-    const url = "http://localhost:3001"
+    const url = URL_API
     const [data, setData] = useState<Game>()
     const [dataReview, setDataReview] = useState<Review[]>()
     const [customErr, setError] = useState('');
@@ -38,7 +41,7 @@ function GameInfo({ companyId: CompanyId, gameId: GameId }: Props) {
         }
         validateToken();
     }, [])
-    
+
 
 
     useEffect(() => {
@@ -65,7 +68,7 @@ function GameInfo({ companyId: CompanyId, gameId: GameId }: Props) {
 
     }, [])
 
-    
+
 
 
 
@@ -87,9 +90,9 @@ function GameInfo({ companyId: CompanyId, gameId: GameId }: Props) {
 
 
     const refreshGameReviews = async () => {
+
         await axios.get(url + '/companies' + '/' + CompanyId + '/' + 'games/' + GameId + '/reviews').then(function (response) {
             const reviews: Review[] = response.data.reviews
-
             setDataReview(reviews)
             if (response.data.reviews) {
                 calculateRate(response.data.reviews)
@@ -111,15 +114,16 @@ function GameInfo({ companyId: CompanyId, gameId: GameId }: Props) {
     }
 
     useEffect(() => {
+
         refreshGameReviews()
     }, [])
 
 
 
-    
+
     return (
 
-        <div className='w-full bg-white py-16 px-4'>
+        <div className='w-full bg-white py-4 px-4'>
             <div className='max-w-[1200px] mx-auto'>
                 <div className=' border-2 rounded-lg shadow-sm  shadow-[#1c9e75] border-[#00df9a] grid md:grid-cols-2 md:h-auto sm:grid-row-3 sm:grid-cols-2 '>
                     <div className='flex flex-col justify-around'>
@@ -128,20 +132,28 @@ function GameInfo({ companyId: CompanyId, gameId: GameId }: Props) {
                     <div className='flex flex-col justify-center'>
                         <p className='text-[#00df9a] font-bold uppercase '>{data?.name}</p>
                         <p className=''>{data?.summary}</p>
-                        <div className=''>
-                            {<h1 className='md:text-4xl sm:text-3xl text-2xl font-bold py-2 justify-center items-center'><span className='float-left'>Overall Rating: </span> {Math.round(rate * 10) / 10}/5</h1>}
-                        </div>
-                    </div>{tokenValid?
-                    <div className='col-span-2 content-center flex flex-col justify-around h-24'>
-                        <button onClick={() => setWriteCommentVisibility(!writeCommentVisibility)} className=' bg-[#00df9a] h-full rounded-md font-medium text-black '>Write Review</button>
-                    </div>:null}
+
+                    </div>{tokenValid ?
+                        <div className='col-span-2 content-center flex flex-col justify-around h-24'>
+                            <button onClick={() => setWriteCommentVisibility(!writeCommentVisibility)} className=' bg-[#00df9a] h-full rounded-md font-medium text-black '>Write Review</button>
+                        </div> : null}
                 </div>
+
+                <div className='mt-2 border-2 rounded-lg shadow-sm  shadow-[#1c9e75] border-[#00df9a] text-center'>
+                    <div className='grid grid-rows-2 gap-0'>
+                        <div className=' uppercase font-bold text-[#1c9e75]'>Overall Rating</div>
+                        <div><Rating className='inherint' SVGclassName="inline-block" iconsCount={5} size={45} allowFraction={true} readonly={true} initialValue={Math.round(rate * 10) / 10} />
+                        </div>
+                    </div>
+                </div>
+
                 <ReviewList refreshReviewList={refreshGameReviews} companyId={CompanyId} reviewList={dataReview} />
             </div>
+
             {writeCommentVisibility && (
-                <CommentWrite gameId={GameId} companyId={CompanyId} visible={writeCommentVisibility} onClose={handleOnClose} refreshReviewsOfGame={()=>refreshGameReviews()}/>
+                <CommentWrite gameId={GameId} companyId={CompanyId} visible={writeCommentVisibility} onClose={handleOnClose} refreshReviewsOfGame={() => refreshGameReviews()} />
             )}
-            
+
         </div>
     )
 }

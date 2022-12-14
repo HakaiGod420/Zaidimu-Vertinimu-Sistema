@@ -2,6 +2,8 @@ import React, { Dispatch, SetStateAction, useState } from 'react'
 import { Axios } from 'axios';
 import { Company } from '../types/company';
 const axios: Axios = require('axios');
+import { toast } from 'react-hot-toast';
+import { URL_API } from '../exports';
 
 interface Props {
     companyId : number | undefined
@@ -11,25 +13,53 @@ interface Props {
     refreshGameAfterDelete : () => Promise<void>
 }
 function DeleteGameModel({companyId,gameId, visible, onClose,refreshGameAfterDelete }: Props) {
-    const url = "http://localhost:3001"
+    const url = URL_API
 
     const deleteGame = async () => {
+        const loading = toast.loading('Deleting game...')
         const token = JSON.parse(localStorage.getItem("token") || "false")
 
         axios.defaults.headers.delete['Authorization'] = `Bearer ${token.token}`;
 
-        axios.delete(url + '/companies/'+companyId+'/games/'+gameId).then(function (response) {
+        await axios.delete(url + '/companies/'+companyId+'/games/'+gameId).then(function (response) {
+            toast.success('Game was deleted!', {
+                id: loading,
+            })
         }).catch(function (error) {
 
             if (error.response == undefined) {
+                toast.error('Error occurred', {
+                    id: loading,
+                })
                 return;
             }
             // handle error
             if (error.response.status == 404) {
+                toast.error('Error occurred', {
+                    id: loading,
+                })
                 return
             }
             if (error.response.status == 400) {
+                toast.error('Error occurred', {
+                    id: loading,
+                })
                 return
+            }
+            if (error.response.status == 401) {
+                toast.error('Error occurred',{
+                    id:loading
+                })
+            }
+            if (error.response.status == 403) {
+                toast.error('Error occurred',{
+                    id:loading
+                })
+            }
+            if (error.response.status == 500) {
+                toast.error('Error occurred',{
+                    id:loading
+                })
             }
         })
     }
