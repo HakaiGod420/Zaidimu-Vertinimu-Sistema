@@ -23,7 +23,7 @@ function ReviewElement({ review: Review, companyId,refreshReviewList }: Props) {
   return (
     <div className='flex items-center space place-content-around'>
       <button onClick={handleMoreInfoModel}
-        className="transition ease-in-out delay-150 p-8 border border-gray-200 rounded bg-white lg:min-w-[365px] lg:min-h-[150px] md:min-h-[150px] md:min-w-[340px] min-h-[350px] min-w-[450px]  hover:border-b-4 hover:border-[#08aa76] active:bg-gray-100 hover:bg-[#e2ebe8] hover:-translate-y-1 hover:scale-105 duration-300">
+        className="transition ease-in-out delay-150 p-8 border border-gray-200 rounded bg-white xsm:min-h-[10px] lg:min-w-[365px] lg:min-h-[150px] md:min-h-[150px] md:min-w-[340px] min-h-[290px] hover:border-b-4 hover:border-[#08aa76] active:bg-gray-100 hover:bg-[#e2ebe8] hover:-translate-y-1 hover:scale-105 duration-300">
         <div className="flex justify-center items-center text-gray-500">
           <div className='inherint z-0'>
             <Rating className='inherint' SVGclassName="inline-block" iconsCount={5} size={17} allowFraction={false} readonly={true} initialValue={Review.rating} />

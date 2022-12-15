@@ -13,7 +13,7 @@ function GameCard({ game: SelectedGame }: Props) {
 
             <Link href={"/games/" + SelectedGame.company.id.toString() + "/" + SelectedGame.id}>
                 <button
-                    className="p-8 border border-gray-200 rounded bg-white lg:min-w-[325px] lg:min-h-[150px] md:min-h-[150px] md:min-w-[345px] min-h-[250px] min-w-[470px] hover:bg-gray-50 hover:border-b-4 hover:border-[#00df9a] active:bg-gray-100" >
+                    className="p-8 border border-gray-200 rounded bg-white lg:min-w-[325px] lg:min-h-[150px] md:min-h-[150px] md:min-w-[345px] min-h-[250px] min-w-[280px] hover:bg-gray-50 hover:border-b-4 hover:border-[#00df9a] active:bg-gray-100" >
                     <div className="flex justify-center items-center text-gray-500">
                         <img src={SelectedGame.thumbnail} alt='' className=' h-25 w-25'></img>
                     </div>

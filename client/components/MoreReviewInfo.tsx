@@ -65,7 +65,7 @@ function MoreReviewInfo({ review, visible, onClose, refreshReviewList, companyId
     return (
         <div onClick={handeOnClose} id="container" className=" inherint z-20 fixed inset-0 bg-black bg-opacity-30 backdrop-blur-sm flex justify-center items-center">
             <div className="relative w-full h-full md:h-auto flex items-center justify-center">
-                <div className="relative bg-white rounded-lg shadow dark:bg-gray-700 min-w-[480px] lg:min-w-[750px]">
+                <div className="relative bg-white rounded-lg shadow dark:bg-gray-700  ">
                     <button onClick={onClose} type="button" className="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-800 dark:hover:text-white" data-modal-toggle="popup-modal">
                         <svg aria-hidden="true" className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd"></path></svg>
                         <span className="sr-only">Close modal</span>
@@ -81,13 +81,15 @@ function MoreReviewInfo({ review, visible, onClose, refreshReviewList, companyId
                                 <div>Posted at {NewDate}</div>
                             }
                         </div>
-                        <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">{review.comment}</h3>
+                        <div className='max-w-[500px]'>
+                            <p className=" text-lg font-normal text-gray-500 dark:text-gray-400">{review.comment}</p>
+                        </div>
                     </div>
                     {cantEditDel ?
                         <div className='border-t-2 border-gray-400 grid grid-cols-2 gap-1 text-gray-500 dark:text-gray-400'>
                             <div className='text-blue-600 text-[25px] flex flex-wrap items-center content-center justify-center'><AiOutlineEdit className='cursor-pointer w-10 h-10' onClick={() => { setUpdateModeVisibility(true) }} /></div>
                             <div className='text-blue-600 text-[25px] flex flex-wrap items-center content-center justify-center'><MdDeleteOutline className='cursor-pointer w-10 h-10' onClick={() => { setDeleteModeVisibility(true) }} /></div>
-                        </div>:null
+                        </div> : null
                     }
                 </div>
             </div>

@@ -91,11 +91,11 @@ function CompaniesControl() {
 
     return (
         <div>
-            <div className='w-full bg-white py-16 px-4 flex justify-center'>
+            <div className='w-full  bg-white py-16 px-4 justify-center'>
                 <div className='max-w-[1240px] mx-auto'>
 
-                    <div className=' grid grid-cols-2 justify-items-end align-middle items-centers'>
-                        <div className='text-center mb-3 text-green-500 font-bold  text-[30px]'>
+                    <div className=' grid grid-cols-2 justify-items-end items-center align-middle'>
+                        <div className='text-center justify-start mb-3 text-green-500 font-bold  text-[27px]'>
                             <h1 className=''>COMPANIES LIST</h1>
                         </div>
                         <div className=''>
