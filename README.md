@@ -225,3 +225,427 @@ PUT https://videogamerating.azurewebsites.net/companies/11
   
 }
 ```
+## GET games/list
+
+**RESOURCES URL**
+https://videogamerating.azurewebsites.net/companies/11/games
+
+**RESPONSES CODES**
+
+| Responses Codes | Message |
+| ------------- | ------------- |
+| 200 | Data was fetched  |
+| 500  | Internal Error  |
+| 400  | Bad Request  |
+| 404  | Not found  |
+
+## EXAMPLE REQUEST
+
+** SEND GET REQUEST:** https://videogamerating.azurewebsites.net/companies/11/games
+
+### Result
+
+```javascript
+{
+    "games": [
+        {
+            "id": 9,
+            "name": "Grand Theft Auto V",
+            "summary": "Grand Theft Auto V for PC offers players the option to explore the award-winning world of Los Santos and Blaine County in resolutions of up to 4k and beyond, as well as the chance to experience the game running at 60 frames per second.",
+            "releaseDate": "2014-12-06T00:00:00.000Z",
+            "startingPrice": 59.99,
+            "thumbnail": "https://cdn.akamai.steamstatic.com/steam/apps/271590/header.jpg?t=1670432616",
+            "company": {
+                "id": 11
+            }
+        }
+    ]
+}
+```
+
+## GET games/single
+
+**RESOURCES URL**
+https://videogamerating.azurewebsites.net/companies/11/games/9
+
+**RESPONSES CODES**
+
+| Responses Codes | Message |
+| ------------- | ------------- |
+| 200 | Data was fetched  |
+| 500  | Internal Error  |
+| 400  | Bad Request  |
+| 404  | Not found  |
+
+## EXAMPLE REQUEST
+
+** SEND GET REQUEST:** https://videogamerating.azurewebsites.net/companies/11/games/9
+
+### Result
+
+```javascript
+{
+    "data": {
+        "id": 9,
+        "name": "Grand Theft Auto V",
+        "summary": "Grand Theft Auto V for PC offers players the option to explore the award-winning world of Los Santos and Blaine County in resolutions of up to 4k and beyond, as well as the chance to experience the game running at 60 frames per second.",
+        "releaseDate": "2014-12-06T00:00:00.000Z",
+        "startingPrice": 59.99,
+        "thumbnail": "https://cdn.akamai.steamstatic.com/steam/apps/271590/header.jpg?t=1670432616",
+        "company": {
+            "id": 11,
+            "name": "RockStart",
+            "creationDate": "1996-01-15T00:00:00.000Z",
+            "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Rockstar_Games_Logo.svg/2226px-Rockstar_Games_Logo.svg.png"
+        }
+    }
+}
+```
+
+
+## DELETE games/single
+
+**RESOURCES URL**
+DELETE https://videogamerating.azurewebsites.net/companies/11/games/9
+
+**RESPONSES CODES**
+
+| Responses Code  | Message |
+| ------------- | ------------- |
+| 204 | No Content  |
+| 500  | Internal Error  |
+| 400  | Bad Request  |
+| 404  | Not Found |
+| 401  | Unauthorized |
+| 403  | Forbidden |
+
+## EXAMPLE REQUEST
+
+**SEND DELETE REQUEST** https://videogamerating.azurewebsites.net/companies/11/games/9
+
+### Result
+```javascript
+{
+   
+}
+```
+
+
+## POST games/single
+
+**RESOURCES URL**
+POST https://videogamerating.azurewebsites.net/companies/11/games/
+
+**RESPONSES CODES**
+
+
+| Responses Code  | Message |
+| ------------- | ------------- |
+| 201 | Created  |
+| 500  | Internal Error  |
+| 400  | Bad Request  |
+| 401  | Unauthorized |
+| 403  | Forbidden |
+
+## EXAMPLE REQUEST
+
+**SEND POST REQUEST** https://videogamerating.azurewebsites.net/companies/11/games
+
+```javascript
+{
+            "name": "Test",
+            "summary": "Test",
+            "releaseDate": "2018-03-20",
+            "startingPrice": 39.99,
+            "thumbnail": "Test"
+}
+```
+### Result
+```javascript
+{
+   id:10
+}
+```
+## PUT games/single
+
+**RESOURCES URL**
+PUT https://videogamerating.azurewebsites.net/companies/11/games/9
+
+**RESPONSES CODES**
+
+
+| Responses Code  | Message |
+| ------------- | ------------- |
+| 204 | No Content  |
+| 500  | Internal Error  |
+| 400  | Bad Request  |
+| 401  | Unauthorized |
+| 403  | Forbidden |
+
+## EXAMPLE REQUEST
+
+**SEND PUT REQUEST** https://videogamerating.azurewebsites.net/companies/11/games/9
+
+```javascript
+{
+            "name": "Testtttt",
+            "summary": "Test",
+            "releaseDate": "2018-03-20",
+            "startingPrice": 39.99,
+            "thumbnail": "Test"
+}
+```
+### Result
+```javascript
+{
+  
+}
+```
+
+## GET reviews/list
+
+**RESOURCES URL**
+https://videogamerating.azurewebsites.net/companies/11/games/9/reviews
+
+**RESPONSES CODES**
+
+| Responses Codes | Message |
+| ------------- | ------------- |
+| 200 | Data was fetched  |
+| 500  | Internal Error  |
+| 400  | Bad Request  |
+| 404  | Not found  |
+
+## EXAMPLE REQUEST
+
+** SEND GET REQUEST:** https://videogamerating.azurewebsites.net/companies/11/games/9/reviews
+
+### Result
+
+```javascript
+{
+    {
+    "reviews": [
+        {
+            "id": 19,
+            "comment": "Good game",
+            "rating": 4,
+            "postDate": "2022-12-15T00:00:00.000Z",
+            "game": {
+                "id": 9
+            },
+            "user": {
+                "user_id": 10,
+                "username": "gytis"
+            }
+        }
+    ]
+}
+}
+```
+## GET reviews/single
+
+**RESOURCES URL**
+https://videogamerating.azurewebsites.net/companies/11/games/9/reviews/19
+
+**RESPONSES CODES**
+
+| Responses Codes | Message |
+| ------------- | ------------- |
+| 200 | Data was fetched  |
+| 500  | Internal Error  |
+| 400  | Bad Request  |
+| 404  | Not found  |
+
+## EXAMPLE REQUEST
+
+** SEND GET REQUEST:** https://videogamerating.azurewebsites.net/companies/11/games/9/reviews/19
+
+### Result
+
+```javascript
+{
+    "data": {
+        "comment": "Good game",
+        "rating": 4,
+        "postDate": "2022-12-15T00:00:00.000Z",
+        "user": {
+            "user_id": 10,
+            "username": "gytis"
+        },
+        "game": {
+            "id": 9
+        }
+    }
+}
+```
+
+## DELETE reviews/single
+
+**RESOURCES URL**
+DELETE https://videogamerating.azurewebsites.net/companies/11/games/9/reviews/19
+
+**RESPONSES CODES**
+
+| Responses Code  | Message |
+| ------------- | ------------- |
+| 204 | No Content  |
+| 500  | Internal Error  |
+| 400  | Bad Request  |
+| 404  | Not Found |
+| 401  | Unauthorized |
+| 403  | Forbidden |
+
+## EXAMPLE REQUEST
+
+**SEND DELETE REQUEST** https://videogamerating.azurewebsites.net/companies/11/games/9/reviews/19
+
+### Result
+```javascript
+{
+   
+}
+```
+
+## POST reviews/single
+
+**RESOURCES URL**
+POST https://videogamerating.azurewebsites.net/companies/11/games/9
+
+**RESPONSES CODES**
+
+
+| Responses Code  | Message |
+| ------------- | ------------- |
+| 201 | Created  |
+| 500  | Internal Error  |
+| 400  | Bad Request  |
+| 401  | Unauthorized |
+
+## EXAMPLE REQUEST
+
+**SEND POST REQUEST** https://videogamerating.azurewebsites.net/companies/11/games/9/reviews
+
+```javascript
+{
+        "comment": "Test Review2",
+        "rating": 4,
+        "postDate": "2022-10-11"
+}
+```
+### Result
+```javascript
+{
+   id:10
+}
+```
+
+## PUT reviews/single
+
+**RESOURCES URL**
+POST https://videogamerating.azurewebsites.net/companies/11/games/9/reviews/19
+
+**RESPONSES CODES**
+
+
+| Responses Code  | Message |
+| ------------- | ------------- |
+| 204 | No Content  |
+| 500  | Internal Error  |
+| 400  | Bad Request  |
+| 401  | Unauthorized |
+| 403  | Forbidden |
+
+## EXAMPLE REQUEST
+
+**SEND PUT REQUEST** https://videogamerating.azurewebsites.net/companies/11/games/9/reviews/19
+
+```javascript
+{
+        "comment": "Update Review2",
+        "rating": 4,
+        "postDate": "2022-10-11"
+}
+```
+### Result
+```javascript
+{
+  
+}
+```
+
+
+## POST REGISTER user/single
+
+**RESOURCES URL**
+POST https://videogamerating.azurewebsites.net/users/register
+
+**RESPONSES CODES**
+
+
+| Responses Code  | Message |
+| ------------- | ------------- |
+| 201 | Created  |
+| 500  | Internal Error  |
+| 400  | Bad Request  |
+
+## EXAMPLE REQUEST
+
+**SEND POST REQUEST** https://videogamerating.azurewebsites.net/users/register
+
+```javascript
+{
+    "username": "someones",
+    "password": "test2",
+    "email": "sometasaasdasdsdhin2g@gmail.com"
+}
+```
+### Result
+```javascript
+{
+    "username": "someones",
+    "password": "$2b$10$R.cBY8Ee6Esgj95T.kay.ON46euPeotiCAZepauWpknh4xOKGvAGC",
+    "email": "sometasaasdasdsdhin2g@gmail.com",
+    "user_id": 11,
+    "isAdmin": false,
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxMSwiZW1haWwiOiJzb21ldGFzYWFzZGFzZHNkaGluMmdAZ21haWwuY29tIiwiaXNBZG1pbiI6ZmFsc2UsImlhdCI6MTY3MTEwMzY1NiwiZXhwIjoxNjcxMTEwODU2fQ.3Pe4c1rBra3ku8pW3-9tSsh7eMR_YutykTIRX-Zhxzk"
+}
+```
+
+## POST LOGIN user/single
+
+**RESOURCES URL**
+POST https://videogamerating.azurewebsites.net/users/login
+
+**RESPONSES CODES**
+
+
+| Responses Code  | Message |
+| ------------- | ------------- |
+| 200 | OK |
+| 500  | Internal Error  |
+| 400  | Bad Request  |
+
+## EXAMPLE REQUEST
+
+**SEND POST REQUEST** https://videogamerating.azurewebsites.net/users/login
+
+```javascript
+{
+    "password": "test",
+    "email": "something@gmail.com"
+}
+```
+### Result
+```javascript
+{
+    "user": {
+        "username": "testUser",
+        "user_id": 4,
+        "password": "$2b$10$WO0SOesW.GUk4wmdNHyJnOj2LidMGTE8a8FOgimAkLCnA.UewE/uC",
+        "email": "something@gmail.com",
+        "isAdmin": false,
+        "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo0LCJlbWFpbCI6InNvbWV0aGluZ0BnbWFpbC5jb20iLCJJc0FkbWluIjpmYWxzZSwiaWF0IjoxNjcxMTAzNzE5LCJleHAiOjE2NzExMTA5MTl9.XP2K2dacTXbr4d12Uy6Et9ZnQZQ5a5NNhEYR19IPSWE"
+    }
+}
+```
