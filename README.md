@@ -649,3 +649,18 @@ POST https://videogamerating.azurewebsites.net/users/login
     }
 }
 ```
+
+# Išvados
+
+1. Buvo sukurta svetainė skirta įvertinti žaidimus;
+2. Buvo sukurtas API serveris ir klientinė dalis;
+3. Projektas buvo patalpintas Azure serverį;
+4. Buvo naudota MySQL duoomenų bazė;
+5. Buvo išreikšti trys lygiai "Kompanijos -> Žaidimai > Įvertinimai";
+6. Projektas buvo kuriamas 3,5 mėnesio;
+7. Buvo įgyvendintas pilnai API per vartotojo sąsają;
+8. Buvo įvykdyti visi užsibrėžti funkciniai reikalavimai;
+9. Svetainės dizainas buvo "pritaikytas" išmaniems telefonams (min 360 px plotis);
+10. Projektą galimą dar plėtoti ir pridėti naujų funkcijų. Taip pat ištaisyti likusias klaidas, kurios nebuvo pastebėtos;
+11. Yra naudojama JWT autentikacija;
+12. API aprašytas naudojant REST metodiką;
