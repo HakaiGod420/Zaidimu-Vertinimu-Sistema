@@ -74,11 +74,154 @@ Sistema sudarys trys sistemos naudotojai: administratorius, prisijungęs vartoto
 **RESOURCES URL**
 https://videogamerating.azurewebsites.net/companies/
 
-**RESPONES CODES**
-| First Header  | Second Header |
+**RESPONSES CODES**
+
+| Responses Codes | Message |
 | ------------- | ------------- |
 | 200 | Data was fetched  |
 | 500  | Internal Error  |
+| 400  | Bad Request  
+
+## EXAMPLE REQUEST
+
+** SEND GET REQUEST:** https://videogamerating.azurewebsites.net/companies/
+
+### Result
+
+```javascript
+{
+    "companies": [
+        {
+            "id": 11,
+            "name": "RockStart",
+            "creationDate": "1996-01-15T00:00:00.000Z",
+            "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Rockstar_Games_Logo.svg/2226px-Rockstar_Games_Logo.svg.png"
+        }
+    ]
+}
+```
+## GET companies/single
+
+**RESOURCES URL**
+GET https://videogamerating.azurewebsites.net/companies/11/
+
+**RESPONSES CODES**
+
+| Responses Code  | Message |
+| ------------- | ------------- |
+| 200 | Data was fetched  |
+| 500  | Internal Error  |
+| 400  | Bad Request  |
+| 404  | Not Found |
+
+## EXAMPLE REQUEST
+
+**SEND GET REQUEST** https://videogamerating.azurewebsites.net/companies/11/
+
+### Result
+
+```javascript
+{
+    "data": {
+        "id": 11,
+        "name": "RockStart",
+        "creationDate": "1996-01-15T00:00:00.000Z",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Rockstar_Games_Logo.svg/2226px-Rockstar_Games_Logo.svg.png"
+    }
+}
+```
+
+## DELETE companies/single
+
+**RESOURCES URL**
+DELETE https://videogamerating.azurewebsites.net/companies/11/
+
+**RESPONSES CODES**
+
+| Responses Code  | Message |
+| ------------- | ------------- |
+| 204 | No Content  |
+| 500  | Internal Error  |
+| 400  | Bad Request  |
+| 404  | Not Found |
+| 401  | Unauthorized |
+| 403  | Forbidden |
+
+## EXAMPLE REQUEST
+
+**SEND DELETE REQUEST** https://videogamerating.azurewebsites.net/companies/11/
+
+### Result
+```javascript
+{
+   
+}
+```
+
+## POST companies/single
+
+**RESOURCES URL**
+POST https://videogamerating.azurewebsites.net/companies/
+
+**RESPONSES CODES**
 
 
+| Responses Code  | Message |
+| ------------- | ------------- |
+| 201 | Created  |
+| 500  | Internal Error  |
+| 400  | Bad Request  |
+| 401  | Unauthorized |
+| 403  | Forbidden |
 
+## EXAMPLE REQUEST
+
+**SEND POST REQUEST** https://videogamerating.azurewebsites.net/companies/
+
+```javascript
+{
+    "name": "Test Compony",
+    "creationDate": "2022-09-07",
+    "image": "image link"
+}
+```
+### Result
+```javascript
+{
+   id:12
+}
+```
+
+## PUT companies/single
+
+**RESOURCES URL**
+PUT https://videogamerating.azurewebsites.net/companies/11
+
+**RESPONSES CODES**
+
+
+| Responses Code  | Message |
+| ------------- | ------------- |
+| 204 | No Content  |
+| 500  | Internal Error  |
+| 400  | Bad Request  |
+| 401  | Unauthorized |
+| 403  | Forbidden |
+
+## EXAMPLE REQUEST
+
+**SEND PUT REQUEST** https://videogamerating.azurewebsites.net/companies/11
+
+```javascript
+{
+    "name": "Test Compony",
+    "creationDate": "2022-09-07",
+    "image": "image link"
+}
+```
+### Result
+```javascript
+{
+  
+}
+```
