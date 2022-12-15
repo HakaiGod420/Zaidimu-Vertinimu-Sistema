@@ -47,5 +47,9 @@ Sistema sudarys trys sistemos naudotojai: administratorius, prisijungęs vartoto
 
 ![image](https://user-images.githubusercontent.com/53708719/193450817-b6216e6c-a47e-4557-99e9-972f80f153fd.png)
 
+#Wireframe ir galutinio produkto palyginimai
+##Pagrindinis puslapis
+![Screenshot_1](https://user-images.githubusercontent.com/53708719/207832894-87badf51-7de2-48f1-b3d0-4c055c170e0d.png)
+![image](https://user-images.githubusercontent.com/53708719/207832990-2dbdb52d-5ddc-48f0-9477-8b7a15a26b09.png)
 
 
