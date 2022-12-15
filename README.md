@@ -58,7 +58,7 @@ Sistema sudarys trys sistemos naudotojai: administratorius, prisijungęs vartoto
 ![Screenshot_3](https://user-images.githubusercontent.com/53708719/207834543-5f9b14ef-791c-4338-b212-14e8bfa73339.png)
 ![image](https://user-images.githubusercontent.com/53708719/207834637-fac502f7-97b8-479a-9208-6987b8ee34ed.png)
 ## Žaidimo informacijos langas
-![Screenshot_3](https://user-images.githubusercontent.com/53708719/207835077-fa2efabf-843c-4e66-9a7c-9ca3e53af606.png)
+![Screenshot_4](https://user-images.githubusercontent.com/53708719/207836313-d0e173b6-4159-4790-8235-2aedaf4e4dea.png)
 ![image](https://user-images.githubusercontent.com/53708719/207835601-4367ecd3-fcaf-4cd3-b974-5976c845ec39.png)
 ##  Prisijungimo langas
 ![Screenshot_5](https://user-images.githubusercontent.com/53708719/207835723-9e44db2f-828d-44bb-a0cf-44714e8fe876.png)
@@ -68,7 +68,17 @@ Sistema sudarys trys sistemos naudotojai: administratorius, prisijungęs vartoto
 ![image](https://user-images.githubusercontent.com/53708719/207835932-18fb4e9c-4509-469a-8507-bc7e54fa78ed.png)
 ![image](https://user-images.githubusercontent.com/53708719/207836084-a085c7a6-c958-43f5-9dd5-4574409d8c64.png)
 
+# API Specifikacijos
+## GET companies/list
 
+**RESOURCES URL**
+https://videogamerating.azurewebsites.net/companies/
+
+**RESPONES CODES**
+| First Header  | Second Header |
+| ------------- | ------------- |
+| 200 | Data was fetched  |
+| 500  | Internal Error  |
 
 
 
