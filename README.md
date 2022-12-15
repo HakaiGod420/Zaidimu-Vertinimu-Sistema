@@ -49,7 +49,26 @@ Sistema sudarys trys sistemos naudotojai: administratorius, prisijungęs vartoto
 
 # Wireframe ir galutinio produkto palyginimai
 ## Pagrindinis puslapis
-![Screenshot_1](https://user-images.githubusercontent.com/53708719/207832894-87badf51-7de2-48f1-b3d0-4c055c170e0d.png | width=100) 
+![Screenshot_1](https://user-images.githubusercontent.com/53708719/207832894-87badf51-7de2-48f1-b3d0-4c055c170e0d.png) 
 ![image](https://user-images.githubusercontent.com/53708719/207832990-2dbdb52d-5ddc-48f0-9477-8b7a15a26b09.png)
+## Kompanijų sąrašas
+![Screenshot_2](https://user-images.githubusercontent.com/53708719/207834289-0e238571-755d-4de1-a36d-f21a1ff8c05f.png)
+![image](https://user-images.githubusercontent.com/53708719/207834407-1190eb71-d80b-4ef6-900f-c26275f0b04c.png)
+## Žaidimimų sąrašas
+![Screenshot_3](https://user-images.githubusercontent.com/53708719/207834543-5f9b14ef-791c-4338-b212-14e8bfa73339.png)
+![image](https://user-images.githubusercontent.com/53708719/207834637-fac502f7-97b8-479a-9208-6987b8ee34ed.png)
+## Žaidimo informacijos langas
+![Screenshot_3](https://user-images.githubusercontent.com/53708719/207835077-fa2efabf-843c-4e66-9a7c-9ca3e53af606.png)
+![image](https://user-images.githubusercontent.com/53708719/207835601-4367ecd3-fcaf-4cd3-b974-5976c845ec39.png)
+##  Prisijungimo langas
+![Screenshot_5](https://user-images.githubusercontent.com/53708719/207835723-9e44db2f-828d-44bb-a0cf-44714e8fe876.png)
+![image](https://user-images.githubusercontent.com/53708719/207835796-0d1ed30e-3a05-4026-b6c6-d64350b645b5.png)
+
+## Įvertinimo rašymo langas
+![image](https://user-images.githubusercontent.com/53708719/207835932-18fb4e9c-4509-469a-8507-bc7e54fa78ed.png)
+![image](https://user-images.githubusercontent.com/53708719/207836084-a085c7a6-c958-43f5-9dd5-4574409d8c64.png)
+
+
+
 
 
